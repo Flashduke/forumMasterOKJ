@@ -42,7 +42,7 @@ if ($num > 0) {
     $user->name = $row['name'];
 
     if (md5($user->password) == $user->confirm) {
-        $secret_key = "YOUR_SECRET_KEY";
+        $secret_key = "5767fdf5-bfbb-47de-82e8-4dd68ac9cd15";
         $issuer_claim = "THE_ISSUER"; // this can be the servername
         $audience_claim = "THE_AUDIENCE";
         $issuedat_claim = time(); // issued at

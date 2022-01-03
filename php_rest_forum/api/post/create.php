@@ -1,4 +1,9 @@
 <?php
+//JWT
+require "../../vendor/autoload.php";
+
+use \Firebase\JWT\JWT;
+
 //headers
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
@@ -7,6 +12,7 @@ header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,
 
 include_once '../../config/Database.php';
 include_once '../../models/Post.php';
+include_once '../jwt.php';
 
 //instantiate database and connect
 $database = new Database();
@@ -18,22 +24,40 @@ $post = new Post($db);
 //get raw posted data
 $data = json_decode(file_get_contents("php://input"));
 
-$post->communityID = $data->communityID;
-$post->content = $data->content;
-$post->picture = $data->picture;
-$post->userID = $data->userID;
-$post->thumbsDowns = $data->thumbsDowns;
-$post->thumbsUps = $data->thumbsUps;
-$post->title = $data->title;
+//get JWT from header
+$jwt = get_bearer_token();
 
-//create post
-if ($post->create()) {
-    echo json_encode(
-        array('message' => 'Post Created')
-    );
-}
-else {
-    echo json_encode(
-        array('message' => 'Post Not Created')
-    );
+if ($jwt) {
+
+    try {
+
+        $decoded = JWT::decode($jwt, $secret_key, array('HS256'));
+
+        $post->communityID = $data->communityID;
+        $post->content = $data->content;
+        $post->picture = $data->picture;
+        $post->userID = $decoded->data->id;
+        $post->thumbsDowns = 0;
+        $post->thumbsUps = 0;
+        $post->title = $data->title;
+
+        //create post
+        if ($post->create()) {
+            echo json_encode(
+                array('message' => 'Post Created')
+            );
+        } else {
+            echo json_encode(
+                array('message' => 'Post Not Created')
+            );
+        }
+    } catch (Exception $e) {
+
+        http_response_code(401);
+
+        echo json_encode(array(
+            "message" => "Access denied.",
+            "error" => $e->getMessage()
+        ));
+    }
 }
