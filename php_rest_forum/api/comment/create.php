@@ -35,9 +35,9 @@ if ($jwt) {
 
         $comment->content = $data->content;
         $comment->postID = $data->postID;
-        $comment->userID = $data->userID;
-        $comment->thumbsDowns = $data->thumbsDowns;
-        $comment->thumbsUps = $data->thumbsUps;
+        $comment->userID = $decoded->data->id;
+        $comment->thumbsDowns = 0;
+        $comment->thumbsUps = 0;
 
         //create comment
         if ($comment->create()) {
