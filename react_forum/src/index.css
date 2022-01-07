@@ -1,13 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;500;900&display=swap');
+:root {
+  --rich-black-fogra-39: #0a0908ff;
+  --dark-purple: #1e091eff;
+  --mint-cream: #edf7f6ff;
+  --purple: #5024b6ff;
+  --purple-transparent: rgba(80, 36, 182, 0.4);
+  --maize-crayola: #f9c846ff;
+  --maize-crayola-transparent: rgba(249, 201, 70, 0.4);
+  --eerie-black: #221f1bff;
+  --eerie-black-transparent: rgba(34, 31, 27, 0.4);
+  --alice-blue: #e9f1f7ff;
+  --spanish-gray: #94958bff;
+  --spanish-gray-transparent: rgba(148, 149, 139, 0.4);
+  font-family: "Montserrat", sans-serif;
+}
+
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background 500ms ease-in-out, color 1000ms ease-in-out;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+.amoled {
+  --bg-color: black;
+  --text-color: var(--spanish-gray);
+  --hover: var(--alice-blue);
+  --nav-color: var(--eerie-black-transparent);
+  --primary: var(--purple);
+  --primary-transparent: var(--purple-transparent);
+  --accent: var(--maize-crayola);
+  --accent-transparent: var(--maize-crayola-transparent);
+}
+
+.dark {
+  --bg-color: var(--rich-black-fogra-39);
+  --text-color: var(--spanish-gray);
+  --hover: var(--alice-blue);
+  --nav-color: var(--eerie-black-transparent);
+  --primary: var(--purple);
+  --primary-transparent: var(--purple-transparent);
+  --accent: var(--maize-crayola);
+  --accent-transparent: var(--maize-crayola-transparent);
+}
+
+.light {
+  --bg-color: var(--mint-cream);
+  --text-color: var(--eerie-black);
+  --nav-color: var(--alice-blue);
+  --primary: var(--purple);
+  --primary-transparent: var(--purple-transparent);
+  --accent: var(--alice-blue);
+  --accent-transparent: var(--spanish-gray-transparent);
+}
+
+.App {
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+}
+
+p,
+h1,
+h2,
+h3 {
+  color: var(--text-color);
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+  letter-spacing: 1px;
+  min-width: 6rem;
+  height: 2.5rem;
+
+  margin: auto 0 auto 0.8rem;
+
+  box-shadow: 0 8px 32px 0 var(--purple-transparent);
+  border: var(--purple-transparent) solid 0.08rem;
+  border-radius: 0.8rem;
+
+  padding-inline: 0.8rem;
+
+  background: var(--btn-color);
+  color: var(--btn-text);
+}
+.btn:hover {
+  border-color: var(--btn-color);
+  outline: var(--btn-color) solid 0.08rem;
+}
+
+.hollow,
+.hollow:hover {
+  --btn-color: var(--accent);
+  --btn-text: var(--primary);
+}
+
+.hollow:active {
+  --btn-color: var(--accent-transparent);
+  --btn-text: var(--text-color);
+}
+
+.full,
+.full:hover {
+  --btn-color: var(--purple);
+  --btn-text: var(--alice-blue);
+}
+
+.full:active {
+  --btn-color: var(--primary-transparent);
+  --btn-text: var(--text-color);
+}
+
+.brand:hover {
+  color: var(--hover);
+  transition: color 0.2s;
+}
+
+.navbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  align-items: center;
+
+  margin: 0.3rem;
+  height: 4rem;
+
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border: var(--spanish-gray-transparent) solid 0.08rem;
+  border-radius: 1.2rem;
+  box-sizing: content-box;
+
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+  padding-inline: 1.2rem;
+
+  background-color: var(--nav-color);
+}
+
+.navbar-nav {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-left: auto;
+  max-width: 100%;
+  height: 100%;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 6rem;
+}
+/* content is a placeholder div in App */
+.content {
+  height: 200vh;
+}
+
+/* Small Screens */
+@media only screen and (max-width: 600px) {
+  .navbar {
+    bottom: 0;
+  }
+}
+
+@media only screen and (max-height: 550px) {
+  .navbar {
+    justify-content: center;
+
+    margin: 0 0 0.3rem 0;
+    height: 3rem;
+
+    border-radius: 0 0 0.8rem 0.8rem;
+  }
+
+  .navbar-nav {
+    display: none;
+  }
+}
+
+/* Large Screens */
+@media only screen and (min-width: 600px), only screen and (max-height: 550px) {
+  .navbar {
+    top: 0;
+  }
 }
