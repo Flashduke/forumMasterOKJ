@@ -93,7 +93,8 @@ ul {
   padding: 0;
 }
 
-a {
+a,
+.Link {
   text-decoration: none;
   color: var(--text-color);
 }
@@ -173,6 +174,7 @@ a {
   padding-inline: 1.2rem;
 
   background-color: var(--nav-color);
+  transition: all 250ms ease;
 }
 
 .navbar-nav {
@@ -222,5 +224,19 @@ a {
 @media only screen and (min-width: 600px), only screen and (max-height: 550px) {
   .navbar {
     top: 0;
+  }
+}
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+      transition-delay: 0.01ms !important;
   }
 }
