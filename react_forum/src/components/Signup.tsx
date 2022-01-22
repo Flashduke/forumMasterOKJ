@@ -8,7 +8,8 @@ function Signup() {
 
   const [message, setMessage] = useState("");
 
-  let handleSubmit = async () => {
+  let handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       let res = await fetch("http://localhost/master_project/php_rest_forum/api/user/signup.php", {
         method: "POST",
