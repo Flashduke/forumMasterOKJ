@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;500;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;500;900&display=swap");
 :root {
   --rich-black-fogra-39: #0a0908ff;
   --dark-purple: #1e091eff;
@@ -14,7 +14,6 @@
   --spanish-gray-transparent: rgba(148, 149, 139, 0.4);
   font-family: "Montserrat", sans-serif;
 }
-
 
 body {
   margin: 0;
@@ -40,7 +39,6 @@ code {
   box-sizing: border-box;
 }
 
-
 .amoled {
   --bg-color: black;
   --text-color: var(--spanish-gray);
@@ -50,6 +48,7 @@ code {
   --primary-transparent: var(--purple-transparent);
   --accent: var(--maize-crayola);
   --accent-transparent: var(--maize-crayola-transparent);
+  --icon-color: var(--mint-cream);
 }
 
 .dark {
@@ -61,6 +60,7 @@ code {
   --primary-transparent: var(--purple-transparent);
   --accent: var(--maize-crayola);
   --accent-transparent: var(--maize-crayola-transparent);
+  --icon-color: var(--mint-cream);
 }
 
 .light {
@@ -71,6 +71,7 @@ code {
   --primary-transparent: var(--purple-transparent);
   --accent: var(--alice-blue);
   --accent-transparent: var(--spanish-gray-transparent);
+  --icon-color: var(--eerie-black);
 }
 
 .App {
@@ -158,23 +159,25 @@ a,
   right: 0;
 
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
 
   margin: 0.3rem;
-  height: 4rem;
+  min-height: 4rem;
 
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   border: var(--spanish-gray-transparent) solid 0.08rem;
   border-radius: 1.2rem;
   box-sizing: content-box;
 
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(3rem);
   -webkit-backdrop-filter: blur(4px);
 
   padding-inline: 1.2rem;
-
+  overflow: hidden;
   background-color: var(--nav-color);
   transition: all 250ms ease;
+  
 }
 
 .navbar-nav {
@@ -182,8 +185,7 @@ a,
   justify-content: flex-end;
 
   margin-left: auto;
-  max-width: 100%;
-  height: 100%;
+  min-height: 4rem;
 }
 
 .nav-item {
@@ -193,6 +195,51 @@ a,
 
   min-width: 6rem;
 }
+
+.navbar-menu {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  min-height: 4rem;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-item button {
+  background: none;
+  border: none;
+
+  color: var(--icon-color);
+  cursor: pointer;
+}
+.menu-item button .toggled {
+  color: var(--primary);
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 4rem;
+}
+
+.wrapper .overflow {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+}
+
+.nav-trans-enter-done {
+  min-height: 8rem;
+}
+.nav-trans-exit-active {
+  min-height: 4rem;
+}
+
 /* content is a placeholder div in App */
 .content {
   height: 200vh;
@@ -203,6 +250,38 @@ a,
   .navbar {
     bottom: 0;
   }
+
+  .navbar-nav {
+    display: none;
+    justify-content: center;
+  }
+
+  .brand {
+    display: none;
+  }
+}
+
+.nav-man-enter {
+  display: flex;
+  opacity: 0;
+}
+.nav-man-enter-active {
+  display: flex;
+  opacity: 1;
+  transition: opacity 500ms;
+}
+.nav-man-enter-done{
+  display: flex;
+  opacity: 1;
+}
+.nav-man-exit {
+  display: flex;
+  opacity: 1;
+}
+.nav-man-exit-active {
+  display: flex;
+  opacity: 0;
+  transition: opacity 500ms;
 }
 
 @media only screen and (max-height: 550px) {
@@ -224,19 +303,26 @@ a,
 @media only screen and (min-width: 600px), only screen and (max-height: 550px) {
   .navbar {
     top: 0;
+
+    flex-wrap: nowrap;
+    align-items: center;
+    max-height: 4rem;
+  }
+
+  .navbar-menu {
+    display: none;
   }
 }
 
 /* Prefers reduced motion */
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-      transition-delay: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    transition-delay: 0.01ms !important;
   }
 }
