@@ -1,5 +1,6 @@
 <?php
 require "../../vendor/autoload.php";
+
 use \Firebase\JWT\JWT;
 //headers
 header('Access-Control-Allow-Origin: *');
@@ -42,13 +43,13 @@ if ($num > 0) {
     $user->name = $row['name'];
 
     if (md5($user->password) == $user->confirm) {
-        $secret_key = "5767fdf5-bfbb-47de-82e8-4dd68ac9cd15";
-        $issuer_claim = "THE_ISSUER"; // this can be the servername
-        $audience_claim = "THE_AUDIENCE";
+        $secret_key = "YOUR_SECRET_KEY";
+        $issuer_claim = "PHP_REST";
+        $audience_claim = "REACT_FORUM";
         $issuedat_claim = time(); // issued at
         $notbefore_claim = $issuedat_claim + 10; //not before in seconds
         $expire_claim = $issuedat_claim + 60; // expire time in seconds
-        $token = array(
+        $accessToken = array(
             "iss" => $issuer_claim,
             "aud" => $audience_claim,
             "iat" => $issuedat_claim,
@@ -57,26 +58,45 @@ if ($num > 0) {
             "data" => array(
                 "id" => $user->id,
                 "email" => $user->email,
-                "picture" => $user->picture,
-                "createdAt" => $user->createdAt,
                 "role" => $user->role,
                 "name" => $user->name
             )
         );
+        $expire_claim = $issuedat_claim + 86400;
+        $refreshToken = array(
+            "iss" => $issuer_claim,
+            "aud" => $audience_claim,
+            "iat" => $issuedat_claim,
+            "nbf" => $notbefore_claim,
+            "exp" => $expire_claim,
+            "data" => array(
+                "id" => $user->id,
+                "email" => $user->email,
+                "role" => $user->role,
+                "name" => $user->name
+            )
+        );
+        //encode refresh token 
+        $cookieToken = JWT::encode($refreshToken, $secret_key);
 
-        http_response_code(200);
+        //set httponly cookie
+        setcookie('refreshToken', $cookieToken, $expire_claim, '/', 'localhost:3000', false, true);
 
-        $jwt = JWT::encode($token, $secret_key);
+        //encode access token
+        $jwt = JWT::encode($accessToken, $secret_key);
         echo json_encode(
             array(
                 "message" => "Successful login.",
-                "jwt" => $jwt,
+                "accessToken" => $jwt,
                 "email" => $user->email,
+                "role" => $user->role,
                 "expireAt" => $expire_claim
             )
         );
+        
+        http_response_code(200);
     } else {
-        $asd = md5($user->password).' '. $user->confirm;
+        $asd = md5($user->password) . ' ' . $user->confirm;
         http_response_code(401);
         echo json_encode(array("message" => "Login failed.", "password" => $asd));
     }
