@@ -10,6 +10,7 @@ header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,
 
 include_once '../../config/Database.php';
 include_once '../../models/User.php';
+include_once '../jwt.php';
 
 
 //instantiate database and connect
@@ -43,9 +44,6 @@ if ($num > 0) {
     $user->name = $row['name'];
 
     if (md5($user->password) == $user->confirm) {
-        $secret_key = "YOUR_SECRET_KEY";
-        $issuer_claim = "PHP_REST";
-        $audience_claim = "REACT_FORUM";
         $issuedat_claim = time(); // issued at
         $notbefore_claim = $issuedat_claim + 10; //not before in seconds
         $expire_claim = $issuedat_claim + 60; // expire time in seconds

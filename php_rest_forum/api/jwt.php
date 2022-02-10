@@ -3,6 +3,8 @@
 //source: https://github.com/roytuts/jwt/blob/master/php-jwt-rest-authentication/jwt_utils.php
 
 $secret_key = "5767fdf5-bfbb-47de-82e8-4dd68ac9cd15";
+$issuer_claim = "PHP_REST";
+$audience_claim = "REACT_FORUM";
 $jwt = null;
 
 function get_authorization_header()
