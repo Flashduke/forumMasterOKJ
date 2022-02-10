@@ -1,11 +1,14 @@
-import Navbar from './components/Navbar';
+import {MotionConfig} from "framer-motion";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <div className="App dark">
-      <Navbar />
-      <div className="content"></div>
-    </div>
+    <MotionConfig reducedMotion="user">
+      <div className="App dark">
+        <Navbar />
+        <div className="content"></div>
+      </div>
+    </MotionConfig>
   );
 }
 
