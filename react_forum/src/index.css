@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;500;900&display=swap");
 :root {
   --rich-black-fogra-39: #0a0908ff;
+  --rich-black-fogra-39-transparent: rgba(10, 9, 8, 0.4);
   --dark-purple: #1e091eff;
   --mint-cream: #edf7f6ff;
   --purple: #5024b6ff;
@@ -12,6 +13,10 @@
   --alice-blue: #e9f1f7ff;
   --spanish-gray: #94958bff;
   --spanish-gray-transparent: rgba(148, 149, 139, 0.4);
+  --orange-soda: #f06543ff;
+  --success: #4cb944ff;
+  --success-transparent: rgba(76, 185, 68, 0.4);
+  --danger: #f06543ff;
   font-family: "Montserrat", sans-serif;
 }
 
@@ -53,7 +58,9 @@ code {
 
 .dark {
   --bg-color: var(--rich-black-fogra-39);
+  --bg-color-transparent: var(--rich-black-fogra-39-transparent);
   --text-color: var(--spanish-gray);
+  --text-contrast: var(--mint-cream);
   --hover: var(--alice-blue);
   --nav-color: var(--eerie-black-transparent);
   --primary: var(--purple);
@@ -66,11 +73,12 @@ code {
 .light {
   --bg-color: var(--mint-cream);
   --text-color: var(--eerie-black);
+  --text-contrast: var(--rich-black-fogra-39);
   --nav-color: var(--alice-blue);
   --primary: var(--purple);
   --primary-transparent: var(--purple-transparent);
-  --accent: var(--alice-blue);
-  --accent-transparent: var(--spanish-gray-transparent);
+  --accent: var(--maize-crayola);
+  --accent-transparent: var(--maize-crayola-transparent);
   --icon-color: var(--eerie-black);
 }
 
@@ -101,10 +109,11 @@ a,
 }
 
 .btn {
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-
+  font-size: 1rem;
   font-weight: bold;
   letter-spacing: 1px;
   min-width: 6rem;
@@ -120,6 +129,7 @@ a,
 
   background: var(--btn-color);
   color: var(--btn-text);
+  font-family: "Montserrat", sans-serif;
 }
 .btn:hover {
   border-color: var(--btn-color);
@@ -177,7 +187,6 @@ a,
   overflow: hidden;
   background-color: var(--nav-color);
   transition: all 250ms ease;
-  
 }
 
 .navbar-nav {
@@ -240,6 +249,80 @@ a,
   min-height: 4rem;
 }
 
+/* modal and backdrop styling */
+
+.backdrop {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inset: 0;
+  height: 100vh;
+  width: 100vw;
+
+  backdrop-filter: blur(3rem);
+  -webkit-backdrop-filter: blur(3rem);
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.modal {
+  position: relative;
+  width: clamp(20%, 30rem, 80%);
+  padding: min(10%, 4rem) min(8%, 3rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--text-contrast);
+  border: var(--spanish-gray-transparent) solid 0.08rem;
+  border-radius: 1.2rem;
+  background-color: var(--nav-color);
+  backdrop-filter: blur(3rem);
+  -webkit-backdrop-filter: blur(4px);
+  outline: 200vh solid var(--primary-transparent);
+  cursor: initial;
+  transition: all 2s ease;
+  z-index: 1001;
+}
+.modal form {
+  display: flex;
+  flex-direction: column;
+  z-index: 1002;
+}
+
+.modal input {
+  color: var(--text-color);
+  margin-bottom: 1.6rem;
+  border-top: none;
+  border-inline: none;
+  border-bottom: purple solid;
+  border-radius: 0.8rem;
+  padding-inline: 1rem;
+  height: 3rem;
+  background: var(--bg-color-transparent);
+  box-shadow: 0 0.5rem 1rem 0 var(--purple-transparent);
+  -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  z-index: 1003;
+}
+
+.modal input:first-child {
+  margin-top: 1.6rem;
+}
+
+.modal input:focus {
+  border-color: var(--success);
+  outline: none;
+  box-shadow: 0 0.5rem 1rem 0 var(--success-transparent);
+}
+
+.modal button {
+  margin-inline: auto;
+}
+
+/* modal and backdrop styling */
+
+
 /* content is a placeholder div in App */
 .content {
   height: 200vh;
@@ -270,7 +353,7 @@ a,
   opacity: 1;
   transition: opacity 500ms;
 }
-.nav-man-enter-done{
+.nav-man-enter-done {
   display: flex;
   opacity: 1;
 }
