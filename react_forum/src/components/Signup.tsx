@@ -81,8 +81,7 @@ function Signup() {
         })
       console.log(response.data);
       setSuccess(true);
-    } catch (error) {
-      const err = error as AxiosError;
+    } catch (err:any) {
       if (!err?.response) setErrMsg("No Server Response");
       else if (err.response?.status === 409) setErrMsg("Username Taken");
       else setErrMsg("Signup Failed");
