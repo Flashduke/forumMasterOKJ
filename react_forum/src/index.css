@@ -322,15 +322,15 @@ a,
 
 /* helpers */
 
-.nofocus {
-  border-bottom: solid;
-  border-color: var(--spanish-gray);
-  box-shadow: 0 0.5rem 1rem 0 var(--spanish-gray-transparent);
-}
-.focus {
+.form-control {
   border-bottom: solid;
   border-color: var(--primary);
   box-shadow: 0 0.5rem 1rem 0 var(--primary-transparent);
+}
+.form-control:focus {
+  border-bottom: solid;
+  border-color: var(--spanish-gray);
+  box-shadow: 0 0.5rem 1rem 0 var(--spanish-gray-transparent);
 }
 
 .valid {
@@ -338,7 +338,6 @@ a,
 } 
 
 .success {
-  border-bottom: solid;
   border-color: var(--success);
   box-shadow: 0 0.5rem 1rem 0 var(--success-transparent);
 }
@@ -348,7 +347,6 @@ a,
 }
 
 .danger {
-  border-bottom: solid;
   border-color: var(--danger);
   box-shadow: 0 0.5rem 1rem 0 var(--danger-transparent);
 }
