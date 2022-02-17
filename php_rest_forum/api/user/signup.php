@@ -1,8 +1,9 @@
 <?php
 //headers
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: http://localhost:3000');
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
 include_once '../../config/Database.php';
@@ -22,11 +23,14 @@ $data = json_decode(file_get_contents("php://input"));
 $user->email = $data->email;
 $user->password = $data->password;
 $user->confirm = $data->confirm;
-$user->picture = $data->picture;
-$user->role = $data->role;
+/* $user->picture = $data->picture;
+$user->role = $data->role; */
 $user->name = $data->name;
 
-if (empty($user->email) || empty($user->password) || empty($user->name) || empty($user->confirm)) {
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+
+} else if (empty($user->email) || empty($user->password) || empty($user->name) || empty($user->confirm)) {
     http_response_code(422);
 
     echo json_encode(
