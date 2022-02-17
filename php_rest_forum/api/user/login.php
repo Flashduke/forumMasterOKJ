@@ -3,9 +3,10 @@ require "../../vendor/autoload.php";
 
 use \Firebase\JWT\JWT;
 //headers
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: http://localhost:3000');
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
 include_once '../../config/Database.php';
@@ -32,7 +33,10 @@ $result = $user->login();
 //get row count
 $num = $result->rowCount();
 
-if ($num > 0) {
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+
+} else if ($num > 0) {
     $row = $result->fetch(PDO::FETCH_ASSOC);
 
     //set properties
