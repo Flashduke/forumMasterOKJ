@@ -1,9 +1,8 @@
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 import Backdrop from "./Backdrop";
 
 type Props = {
   children: JSX.Element;
-  title?: string;
   handleClose: () => void;
 };
 
@@ -28,7 +27,7 @@ const dropIn = {
   },
 };
 
-function Modal({children, title, handleClose}: Props) {
+function Modal({ children, handleClose }: Props) {
   return (
     <Backdrop onClick={handleClose}>
       <motion.div
@@ -39,8 +38,6 @@ function Modal({children, title, handleClose}: Props) {
         animate="visible"
         exit="exit"
       >
-        {title && <h2>{title}</h2>}
-
         {children}
       </motion.div>
     </Backdrop>
