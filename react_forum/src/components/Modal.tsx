@@ -30,7 +30,7 @@ const dropIn = {
 function Modal({ children, handleClose }: Props) {
   return (
     <Backdrop onClick={handleClose}>
-      <motion.div
+      <motion.section
         onClick={(e) => e.stopPropagation()}
         className="modal"
         variants={dropIn}
@@ -39,7 +39,7 @@ function Modal({ children, handleClose }: Props) {
         exit="exit"
       >
         {children}
-      </motion.div>
+      </motion.section>
     </Backdrop>
   );
 }
