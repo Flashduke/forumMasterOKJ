@@ -17,6 +17,7 @@
   --success: #4cb944ff;
   --success-transparent: rgba(76, 185, 68, 0.4);
   --danger: #f06543ff;
+  --danger-transparent: rgba(240, 102, 67, 0.4);
   font-family: "Montserrat", sans-serif;
 }
 
@@ -109,7 +110,6 @@ a,
 }
 
 .btn {
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,7 +131,8 @@ a,
   color: var(--btn-text);
   font-family: "Montserrat", sans-serif;
 }
-.btn:hover {
+.btn:hover:not(:disabled) {
+  cursor: pointer;
   border-color: var(--btn-color);
   outline: var(--btn-color) solid 0.08rem;
 }
@@ -142,7 +143,8 @@ a,
   --btn-text: var(--primary);
 }
 
-.hollow:active {
+.hollow:active,
+.hollow:disabled {
   --btn-color: var(--accent-transparent);
   --btn-text: var(--text-color);
 }
@@ -273,7 +275,6 @@ a,
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: var(--text-contrast);
   border: var(--spanish-gray-transparent) solid 0.08rem;
   border-radius: 1.2rem;
   background-color: var(--nav-color);
@@ -292,15 +293,14 @@ a,
 
 .modal input {
   color: var(--text-color);
+  font-size: 1rem;
   margin-bottom: 1.6rem;
   border-top: none;
   border-inline: none;
-  border-bottom: purple solid;
   border-radius: 0.8rem;
   padding-inline: 1rem;
   height: 3rem;
   background: var(--bg-color-transparent);
-  box-shadow: 0 0.5rem 1rem 0 var(--purple-transparent);
   -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
   transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
   z-index: 1003;
@@ -311,9 +311,7 @@ a,
 }
 
 .modal input:focus {
-  border-color: var(--success);
   outline: none;
-  box-shadow: 0 0.5rem 1rem 0 var(--success-transparent);
 }
 
 .modal button {
@@ -321,6 +319,62 @@ a,
 }
 
 /* modal and backdrop styling */
+
+/* helpers */
+
+.nofocus {
+  border-bottom: solid;
+  border-color: var(--spanish-gray);
+  box-shadow: 0 0.5rem 1rem 0 var(--spanish-gray-transparent);
+}
+.focus {
+  border-bottom: solid;
+  border-color: var(--primary);
+  box-shadow: 0 0.5rem 1rem 0 var(--primary-transparent);
+}
+
+.valid {
+  color: var(--success);
+} 
+
+.success {
+  border-bottom: solid;
+  border-color: var(--success);
+  box-shadow: 0 0.5rem 1rem 0 var(--success-transparent);
+}
+
+.invalid {
+  color: var(--danger);
+}
+
+.danger {
+  border-bottom: solid;
+  border-color: var(--danger);
+  box-shadow: 0 0.5rem 1rem 0 var(--danger-transparent);
+}
+
+.errmsg {
+  color: var(--danger);
+  background-color: var(--danger-transparent);
+  border: var(--danger) solid 0.08rem;
+}
+
+.instructions {
+  color: var(--text-contrast);
+  background-color: var(--primary-transparent);
+  border: var(--primary) solid 0.08rem;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.hide {
+  display: none;
+}
+
+/* helpers */
 
 
 /* content is a placeholder div in App */
