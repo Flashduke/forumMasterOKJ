@@ -8,7 +8,6 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const SIGNUP_URL = "/user/signup.php";
 
 function Signup() {
-  const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const errRef = useRef<HTMLParagraphElement>(null);
 
@@ -32,11 +31,7 @@ function Signup() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    if (nameRef && nameRef.current) nameRef.current.focus();
-  }, []);
-
-  useEffect(() => {
-    if (emailRef && emailRef.current) emailRef.current.focus();
+    emailRef.current?.focus();
   }, []);
 
   useEffect(() => {
@@ -78,15 +73,16 @@ function Signup() {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true
-        })
+        }
+      );
       console.log(response.data);
       setSuccess(true);
-    } catch (err:any) {
+    } catch (err: any) {
       if (!err?.response) setErrMsg("No Server Response");
       else if (err.response?.status === 409) setErrMsg("Username Taken");
       else setErrMsg("Signup Failed");
 
-      if (errRef && errRef.current) errRef.current.focus();
+      errRef.current?.focus();
     }
   };
 
@@ -123,12 +119,10 @@ function Signup() {
               aria-describedby="emailnote"
               onFocus={() => setEmailFocus(true)}
               onBlur={() => setEmailFocus(false)}
-              className={!emailFocus && !email ? "nofocus" : !email ? "focus" : !validEmail ? "danger" : "success"}
+              className={!email ? "form-control" : !validEmail ? "danger" : "success"}
             />
             <p id="emailnote" className={emailFocus && email && !validEmail ? "instructions" : "offscreen"}>
-              Wrong format:
-              <br />
-              use 'yourAddress@yourEmailProvider.domain'
+              Please enter a valid email address
             </p>
 
 
@@ -143,7 +137,6 @@ function Signup() {
             <input
               type="text"
               name="name"
-              ref={nameRef}
               autoComplete="off"
               onChange={(e) => setName(e.target.value)}
               required
@@ -151,7 +144,7 @@ function Signup() {
               aria-describedby="uidnote"
               onFocus={() => setNameFocus(true)}
               onBlur={() => setNameFocus(false)}
-              className={!nameFocus && !name ? "nofocus" : !name ? "focus" : !validName ? "danger" : "success"}
+              className={!name ? "form-control" : !validName ? "danger" : "success"}
             />
             <p id="uidnote" className={nameFocus && name && !validName ? "instructions" : "offscreen"}>
               4 to 24 characters.<br />
@@ -177,7 +170,7 @@ function Signup() {
               aria-describedby="pwdnote"
               onFocus={() => setPasswordFocus(true)}
               onBlur={() => setPasswordFocus(false)}
-              className={!passwordFocus && !password ? "nofocus" : !password ? "focus" : !validPassword ? "danger" : "success"}
+              className={!password ? "form-control" : !validPassword ? "danger" : "success"}
             />
             <p id="pwdnote" className={passwordFocus && !validPassword ? "instructions" : "offscreen"}>
               8 to 24 characters.<br />
@@ -203,7 +196,7 @@ function Signup() {
               aria-describedby="confirmnote"
               onFocus={() => setConfirmFocus(true)}
               onBlur={() => setConfirmFocus(false)}
-              className={!confirmFocus && !confirm ? "nofocus" : !confirm ? "focus" : !validConfirm ? "danger" : "success"}
+              className={!confirm ? "form-control" : !validConfirm ? "danger" : "success"}
             />
             <p id="confirmnote" className={confirmFocus && !validConfirm ? "instructions" : "offscreen"}>
               Must match the first password input field.
