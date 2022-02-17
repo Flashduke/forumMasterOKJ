@@ -3,7 +3,6 @@ import {useState} from "react";
 import {CSSTransition} from "react-transition-group";
 import Modal from "./Modal";
 import ModalChildren from "./ModalChildren";
-import Signup from "./Signup";
 
 function Navbar() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -81,19 +80,15 @@ function Navbar() {
                   <li className="nav-item ">
                     <button
                       className="btn hollow"
-                      onClick={() => {
-                        open("Login");
-                      }}
+                      onClick={() => open("Login")}
                     >
                       Login
                     </button>
                   </li>
                   <li className="nav-item ">
                     <button
-                      className="btn full"
-                      onClick={() => {
-                        open("Signup");
-                      }}
+                      className="btn full "
+                      onClick={() => open("Signup")}
                     >
                       Signup
                     </button>
@@ -222,7 +217,7 @@ function Navbar() {
         onExitComplete={() => null}
       >
         {modalOpen && (
-          <Modal title={formProp} handleClose={close}>
+          <Modal handleClose={close}>
             <ModalChildren content={formProp}></ModalChildren>
           </Modal>
         )}
