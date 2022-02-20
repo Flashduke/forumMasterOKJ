@@ -1,16 +1,16 @@
-import {AnimatePresence} from "framer-motion";
-import {useState} from "react";
-import {CSSTransition} from "react-transition-group";
-import Modal from "./Modal";
-import ModalChildren from "./ModalChildren";
+import { AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { CSSTransition } from 'react-transition-group';
+import Modal from './Modal';
+import ModalChildren from './ModalChildren';
 
 function Navbar() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [formProp, setFormProp] = useState("");
+  const [formProp, setFormProp] = useState('');
 
   const close = () => {
     setModalOpen(false);
-    setFormProp("");
+    setFormProp('');
   };
   const open = (param: string) => {
     setModalOpen(true);
@@ -80,7 +80,7 @@ function Navbar() {
                   <li className="nav-item ">
                     <button
                       className="btn hollow"
-                      onClick={() => open("Login")}
+                      onClick={() => open('Login')}
                     >
                       Login
                     </button>
@@ -88,7 +88,7 @@ function Navbar() {
                   <li className="nav-item ">
                     <button
                       className="btn full "
-                      onClick={() => open("Signup")}
+                      onClick={() => open('Signup')}
                     >
                       Signup
                     </button>
@@ -172,7 +172,7 @@ function Navbar() {
                       width="1.69rem"
                       height="1.69rem"
                       fill="currentColor"
-                      className={search ? "toggled" : ""}
+                      className={search ? 'toggled' : ''}
                       viewBox="0 0 16 16"
                     >
                       <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />

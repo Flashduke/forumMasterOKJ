@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import Backdrop from "./Backdrop";
+import { motion } from 'framer-motion';
+import Backdrop from './Backdrop';
 
 type Props = {
   children: JSX.Element;
@@ -8,7 +8,7 @@ type Props = {
 
 const dropIn = {
   hidden: {
-    y: "-100vh",
+    y: '-100vh',
     opacity: 0,
   },
   visible: {
@@ -16,13 +16,13 @@ const dropIn = {
     opacity: 1,
     transition: {
       duration: 0.5,
-      type: "spring",
+      type: 'spring',
       damping: 10,
       stiffness: 100,
     },
   },
   exit: {
-    y: "100vh",
+    y: '100vh',
     opacity: 0,
   },
 };
