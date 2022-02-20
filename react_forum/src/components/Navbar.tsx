@@ -1,12 +1,15 @@
 import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
+import { Link, useLocation } from 'react-router-dom';
 import Modal from './Modal';
 import ModalChildren from './ModalChildren';
 
 function Navbar() {
   const [modalOpen, setModalOpen] = useState(false);
   const [formProp, setFormProp] = useState('');
+
+  const location = useLocation();
 
   const close = () => {
     setModalOpen(false);
@@ -18,9 +21,7 @@ function Navbar() {
   };
 
   const [inMan, setInMan] = useState(false);
-  const [inBell, setInBell] = useState(false);
   const [search, setSearch] = useState(false);
-  const [inHome, setInHome] = useState(false);
   const [inProp, setInProp] = useState(false);
 
   const toggleInMan = () =>
@@ -36,6 +37,7 @@ function Navbar() {
         return false;
       }
     });
+
   const toggleSearch = () =>
     setSearch((value) => {
       if (inMan) {
@@ -49,29 +51,15 @@ function Navbar() {
         return false;
       }
     });
-  const toggleInHome = () =>
-    setInHome((value) => {
-      setInMan(false);
-      setSearch(false);
-      setInProp(false);
-      return true;
-    });
-  const toggleInBell = () =>
-    setInBell((value) => {
-      setInMan(false);
-      setSearch(false);
-      setInProp(false);
-      return true;
-    });
 
   return (
     <>
       <CSSTransition in={inProp} timeout={200} classNames="nav-trans">
         <nav className="navbar">
           <h2>
-            <a className="brand" href="#">
+            <Link to="/" className="brand">
               Forum
-            </a>
+            </Link>
           </h2>
           <div className="wrapper">
             <div className="overflow">
@@ -97,8 +85,8 @@ function Navbar() {
               </CSSTransition>
               <ul className="navbar-menu">
                 <li className="menu-item">
-                  <button onClick={toggleInHome}>
-                    {inHome ? (
+                  <Link to="/">
+                    {location?.pathname == '/' ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="2rem"
@@ -135,12 +123,12 @@ function Navbar() {
                         />
                       </svg>
                     )}
-                  </button>
+                  </Link>
                 </li>
 
                 <li className="menu-item">
-                  <button onClick={toggleInBell}>
-                    {inBell ? (
+                  <Link to="/notifications">
+                    {location?.pathname == '/notifications' ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="1.69rem"
@@ -163,7 +151,7 @@ function Navbar() {
                         <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
                       </svg>
                     )}
-                  </button>
+                  </Link>
                 </li>
                 <li className="menu-item">
                   <button onClick={toggleSearch}>
