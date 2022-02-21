@@ -1,3 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
-export default axios.create({baseURL: "http://localhost/forumMasterOKJ/php_rest_forum/api"});
+const BASE_URL = 'http://localhost/forumMasterOKJ/php_rest_forum/api';
+
+export default axios.create({ baseURL: BASE_URL });
+
+export const axiosPrivate = axios.create({
+  baseURL: BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
+  withCredentials: true,
+});
