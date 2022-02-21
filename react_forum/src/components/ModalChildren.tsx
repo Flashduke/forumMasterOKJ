@@ -3,11 +3,12 @@ import Signup from './Signup';
 
 type Props = {
   content: string;
+  handleClose: () => void;
 };
 
-function ModalChildren({ content }: Props) {
-  if (content == 'Signup') return <Signup></Signup>;
-  if (content == 'Login') return <Login></Login>;
+function ModalChildren({ content, handleClose }: Props) {
+  if (content === 'Signup') return <Signup></Signup>;
+  if (content === 'Login') return <Login handleClose={handleClose}></Login>;
   return <></>;
 }
 export default ModalChildren;

@@ -86,7 +86,7 @@ function Navbar() {
               <ul className="navbar-menu">
                 <li className="menu-item">
                   <Link to="/">
-                    {location?.pathname == '/' ? (
+                    {location?.pathname === '/' ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="2rem"
@@ -128,7 +128,7 @@ function Navbar() {
 
                 <li className="menu-item">
                   <Link to="/notifications">
-                    {location?.pathname == '/notifications' ? (
+                    {location?.pathname === '/notifications' ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="1.69rem"
@@ -206,7 +206,7 @@ function Navbar() {
       >
         {modalOpen && (
           <Modal handleClose={close}>
-            <ModalChildren content={formProp}></ModalChildren>
+            <ModalChildren content={formProp} handleClose={close}></ModalChildren>
           </Modal>
         )}
       </AnimatePresence>
