@@ -13,6 +13,7 @@ class User
     public $createdAt;
     public $role;
     public $name;
+    public $refreshToken;
 
     //constructor
     public function __construct($db)
@@ -81,6 +82,62 @@ class User
 
         //bind email
         $stmt->bindParam(1, $this->email);
+
+        //execute statement
+        $stmt->execute();
+
+        return $stmt;
+    }
+
+    public function setRefreshToken()
+    {
+        $query = 'UPDATE ' . $this->table . '
+            SET
+                refreshToken = :refreshToken
+            WHERE
+                id = :id';
+
+        //prepare statement
+        $stmt = $this->conn->prepare($query);
+
+        //clean data
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->refreshToken = htmlspecialchars(strip_tags($this->refreshToken));
+
+        //bind data
+        $stmt->bindParam(':refreshToken', $this->refreshToken);
+        $stmt->bindParam(':id', $this->id);
+
+        //execute query
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        //print error if something goes wrong
+        printf("Error: %s.\n", $stmt->error);
+
+        return false;
+    }
+
+    public function findRefreshToken()
+    {
+        //create query
+        $query = 'SELECT
+                id,
+                email,
+                role,
+                name
+            FROM
+                ' . $this->table . '
+            WHERE
+                refreshToken = ?
+            LIMIT 0,1';
+
+        //prepare statement
+        $stmt = $this->conn->prepare($query);
+
+        //bind refreshToken
+        $stmt->bindParam(1, $this->refreshToken);
 
         //execute statement
         $stmt->execute();

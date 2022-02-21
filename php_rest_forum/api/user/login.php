@@ -35,7 +35,6 @@ $num = $result->rowCount();
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
-
 } else if ($num > 0) {
     $row = $result->fetch(PDO::FETCH_ASSOC);
 
@@ -81,8 +80,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         //encode refresh token 
         $cookieToken = JWT::encode($refreshToken, $secret_key);
 
+        //set refreshToken in DB
+        if (!$user->setRefreshToken()) {
+            http_response_code(400);
+            echo json_encode(array("message" => "Login failed."));
+        }
+
         //set httponly cookie
         setcookie('refreshToken', $cookieToken, $expire_claim, '/', 'localhost:3000', false, true);
+
 
         //encode access token
         $jwt = JWT::encode($accessToken, $secret_key);
@@ -95,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
                 "expireAt" => $expire_claim
             )
         );
-        
+
         http_response_code(200);
     } else {
         $asd = md5($user->password) . ' ' . $user->confirm;
