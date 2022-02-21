@@ -222,9 +222,15 @@ a,
 
 .menu-item button,
 .menu-item a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
   background: none;
   border: none;
 
+  min-width: 2rem;
+  padding: 0;
   color: var(--icon-color);
   cursor: pointer;
 }
@@ -447,6 +453,10 @@ a,
 
   .navbar-menu {
     display: none;
+  }
+
+  .content {
+    padding-top: 5rem;
   }
 }
 
