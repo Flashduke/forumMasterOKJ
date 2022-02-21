@@ -1,18 +1,30 @@
-import { useRef, useState, useEffect, useContext } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import useAuth from '../hooks/useAuth';
 
+type Prop = {
+  handleClose: () => void;
+};
+
+type LocationState = {
+  from?: Location;
+};
+
 const LOGIN_URL = '/user/login.php';
 
-function Login() {
+function Login({ handleClose }: Prop) {
   const { setAuth } = useAuth();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as LocationState;
+  const from = state?.from?.pathname || '/';
 
   const emailRef = useRef<HTMLInputElement>(null);
   const errRef = useRef<HTMLParagraphElement>(null);
 
   const [email, setEmail] = useState('');
-
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
 
@@ -35,12 +47,23 @@ function Login() {
           withCredentials: true,
         }
       );
-      console.log(JSON.stringify(response?.data));
+
       const accessToken = response?.data?.accessToken;
       const role = response?.data?.role;
-      setAuth({ email, password, role, accessToken });
+
+      handleClose();
+
+      setAuth({
+        email,
+        password,
+        role,
+        accessToken,
+      });
+
       setEmail('');
       setPassword('');
+
+      navigate(from, { replace: true });
     } catch (err: any) {
       if (!err?.response) setErrMsg('No Server Response');
       else if (err?.response?.status === 400)
