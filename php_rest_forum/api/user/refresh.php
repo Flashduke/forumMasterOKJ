@@ -40,7 +40,7 @@ if (isset($_COOKIE['refreshToken'])) {
         if ($user->id == $decoded->data->id) {
             
             $issuedat_claim = time(); // issued at
-            $notbefore_claim = $issuedat_claim + 10; //not before in seconds
+            $notbefore_claim = $issuedat_claim;
             $expire_claim = $issuedat_claim + 60; // expire time in seconds
             $accessToken = array(
                 "iss" => $issuer_claim,
