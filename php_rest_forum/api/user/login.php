@@ -81,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         $cookieToken = JWT::encode($refreshToken, $secret_key);
 
         //set refreshToken in DB
+        $user->refreshToken = $cookieToken;
         if (!$user->setRefreshToken()) {
             http_response_code(400);
             echo json_encode(array("message" => "Login failed."));
