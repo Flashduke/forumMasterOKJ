@@ -105,8 +105,8 @@ class User
         $this->refreshToken = htmlspecialchars(strip_tags($this->refreshToken));
 
         //bind data
-        $stmt->bindParam(':refreshToken', $this->refreshToken);
         $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':refreshToken', $this->refreshToken);
 
         //execute query
         if ($stmt->execute()) {
@@ -118,15 +118,12 @@ class User
 
         return false;
     }
-
+    
     public function findRefreshToken()
     {
         //create query
         $query = 'SELECT
-                id,
-                email,
-                role,
-                name
+                id
             FROM
                 ' . $this->table . '
             WHERE

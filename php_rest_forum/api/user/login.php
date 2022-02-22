@@ -78,18 +78,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
             )
         );
         //encode refresh token 
-        $cookieToken = JWT::encode($refreshToken, $secret_key);
+        $user->refreshToken = JWT::encode($refreshToken, $secret_key);
 
         //set refreshToken in DB
-        $user->refreshToken = $cookieToken;
         if (!$user->setRefreshToken()) {
             http_response_code(400);
             echo json_encode(array("message" => "Login failed."));
         }
-
+        
         //set httponly cookie
-        setcookie('refreshToken', $cookieToken, $expire_claim, '/', 'localhost:3000', false, true);
-
+        setcookie('refreshToken', $user->refreshToken, $expire_claim, '/', '', false, true);
 
         //encode access token
         $jwt = JWT::encode($accessToken, $secret_key);
@@ -105,8 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
         http_response_code(200);
     } else {
-        $asd = md5($user->password) . ' ' . $user->confirm;
         http_response_code(401);
-        echo json_encode(array("message" => "Login failed.", "password" => $asd));
+        echo json_encode(array("message" => "Login failed."));
     }
 }

@@ -76,7 +76,7 @@ CREATE TABLE `users` (
   `createdAt` date NOT NULL DEFAULT current_timestamp(),
   `role` varchar(255) COLLATE utf8_hungarian_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_hungarian_ci NOT NULL,
-  `refreshToken` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL
+  `refreshToken` text COLLATE utf8_hungarian_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --

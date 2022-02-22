@@ -3,7 +3,7 @@ require "../../vendor/autoload.php";
 
 use \Firebase\JWT\JWT;
 //headers
-header('Access-Control-Allow-Origin: localhost:3000');
+header('Access-Control-Allow-Origin: http://localhost:3000');
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: GET');
 header('Access-Control-Allow-Credentials: true');
@@ -29,7 +29,7 @@ $result = $user->findRefreshToken();
 //get row count
 $num = $result->rowCount();
 
-if ($num > 0) {
+if (isset($_COOKIE['refreshToken'])) {
     $row = $result->fetch(PDO::FETCH_ASSOC);
 
     //set property
@@ -37,8 +37,8 @@ if ($num > 0) {
 
     try {
         $decoded = JWT::decode($_COOKIE['refreshToken'], $secret_key, array('HS256'));
-
-        if ($decoded->data->id == $user->id) {
+        if ($user->id == $decoded->data->id) {
+            
             $issuedat_claim = time(); // issued at
             $notbefore_claim = $issuedat_claim + 10; //not before in seconds
             $expire_claim = $issuedat_claim + 60; // expire time in seconds
@@ -53,32 +53,36 @@ if ($num > 0) {
                     "email" => $user->email,
                     "role" => $user->role,
                     "name" => $user->name
-                )
-            );
-    
-            //encode access token
-            $jwt = JWT::encode($accessToken, $secret_key);
-            echo json_encode(
-                array(
-                    "message" => "Successful token refresh.",
-                    "accessToken" => $jwt,
-                    "expireAt" => $expire_claim
-                )
-            );
-            
-            http_response_code(200);
-        } else {
-            http_response_code(401);
-            echo json_encode(array("message" => "Refresh failed."));
-        }
+                    )
+                );
+                
+                //encode access token
+                $jwt = JWT::encode($accessToken, $secret_key);
+                echo json_encode(
+                    array(
+                        "message" => "Successful token refresh.",
+                        "accessToken" => $jwt,
+                        "expireAt" => $expire_claim
+                        )
+                    );
+                    
+                    http_response_code(200);
+                }
+                else {
+                    echo json_encode(array(
+                        "message" => "Forbidden."
+                    ));
+                    http_response_code(403);
+                }
     } catch (Exception $e) {
-        http_response_code(401);
-
+        
         echo json_encode(array(
-            "message" => "Access denied.",
+            "message" => "Forbidden.",
             "error" => $e->getMessage()
         ));
+        http_response_code(403);
     }
 } else {
-    http_response_code(401);
+    echo json_encode(array("message" => "Refresh failed."));
+    http_response_code(403);
 }
