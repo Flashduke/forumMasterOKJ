@@ -59,6 +59,10 @@ function Login({ handleClose }: Prop) {
         role,
         accessToken,
       });
+      
+      setTimeout(() => {
+        setAuth({});
+      }, 24 * 60 * 60 * 1000);
 
       setEmail('');
       setPassword('');
