@@ -1,5 +1,4 @@
-import { useRef, useState, useEffect, RefObject } from 'react';
-import { AxiosError } from 'axios';
+import { useRef, useState, useEffect } from 'react';
 import axios from '../api/axios';
 
 const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
