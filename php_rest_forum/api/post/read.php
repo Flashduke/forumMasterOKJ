@@ -1,6 +1,8 @@
 <?php
 //headers
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: http://localhost:3000');
+
+header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json');
 
 include_once '../../config/Database.php';
@@ -22,7 +24,7 @@ $num = $result->rowCount();
 if ($num > 0) {
     //post array
     $posts_arr = array();
-    $posts_arr['data'] = array();
+    $posts_arr['posts'] = array();
 
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
@@ -36,18 +38,19 @@ if ($num > 0) {
             'picture' => $picture,
             'createdAt' => $createdAt,
             'userID' => $userID,
-            'userName' => $userName,
+            'author' => $userName,
             'thumbsDowns' => $thumbsDowns,
             'thumbsUps' => $thumbsUps,
             'title' => $title
         );
 
-        //push to "data"
-        array_push($posts_arr['data'], $post_item);
+        //push to posts array
+        array_push($posts_arr['posts'], $post_item);
     }
     
     //turn to JSON and output
     echo json_encode($posts_arr);
+    http_response_code(200);
 } 
 else {
     //no posts

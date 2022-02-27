@@ -1,6 +1,7 @@
 <?php
 //headers
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: http://localhost:3000');
+header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json');
 
 include_once '../../config/Database.php';
@@ -36,3 +37,4 @@ $post_arr = array(
 
 //make JSON
 print_r(json_encode($post_arr));
+http_response_code(200);
