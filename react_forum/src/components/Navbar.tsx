@@ -4,14 +4,23 @@ import { CSSTransition } from 'react-transition-group';
 import { Link, useLocation } from 'react-router-dom';
 import Modal from './Modal';
 import ModalChildren from './ModalChildren';
+import useAuth from '../hooks/useAuth';
+import ProfileButton from './ProfileButton';
 
 function Navbar() {
+  const { auth } = useAuth();
+
   const [modalOpen, setModalOpen] = useState(false);
   const [formProp, setFormProp] = useState('');
+
+  const [inMan, setInMan] = useState(false);
+  const [search, setSearch] = useState(false);
+  const [inProp, setInProp] = useState(false);
 
   const location = useLocation();
 
   const close = () => {
+    setInProp(false);
     setModalOpen(false);
     setFormProp('');
   };
@@ -19,10 +28,6 @@ function Navbar() {
     setModalOpen(true);
     setFormProp(param);
   };
-
-  const [inMan, setInMan] = useState(false);
-  const [search, setSearch] = useState(false);
-  const [inProp, setInProp] = useState(false);
 
   const toggleInMan = () =>
     setInMan((value) => {
@@ -65,22 +70,26 @@ function Navbar() {
             <div className="overflow">
               <CSSTransition in={inMan} timeout={200} classNames="nav-man">
                 <ul className="navbar-nav">
-                  <li className="nav-item ">
-                    <button
-                      className="btn hollow"
-                      onClick={() => open('Login')}
-                    >
-                      Login
-                    </button>
-                  </li>
-                  <li className="nav-item ">
-                    <button
-                      className="btn full "
-                      onClick={() => open('Signup')}
-                    >
-                      Signup
-                    </button>
-                  </li>
+                  {!auth?.email && (
+                    <>
+                      <li className="nav-item ">
+                        <button
+                          className="btn hollow"
+                          onClick={() => open('Login')}
+                        >
+                          Login
+                        </button>
+                      </li>
+                      <li className="nav-item ">
+                        <button
+                          className="btn full "
+                          onClick={() => open('Signup')}
+                        >
+                          Signup
+                        </button>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </CSSTransition>
               <ul className="navbar-menu">
@@ -168,31 +177,17 @@ function Navbar() {
                   </button>
                 </li>
                 <li className="menu-item">
-                  <button onClick={toggleInMan}>
-                    {inMan ? (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="2rem"
-                        height="2rem"
-                        fill="currentColor"
-                        className="toggled"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                      </svg>
-                    ) : (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="2rem"
-                        height="2rem"
-                        fill="currentColor"
-                        className="bi bi-person"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
-                      </svg>
-                    )}
-                  </button>
+                  {!auth?.email ? (
+                    <button onClick={toggleInMan}>
+                      <ProfileButton full={inMan} />
+                    </button>
+                  ) : (
+                    <Link to="/profile">
+                      <ProfileButton
+                        full={location?.pathname === '/profile' ? true : false}
+                      />
+                    </Link>
+                  )}
                 </li>
               </ul>
             </div>
@@ -206,7 +201,10 @@ function Navbar() {
       >
         {modalOpen && (
           <Modal handleClose={close}>
-            <ModalChildren content={formProp} handleClose={close}></ModalChildren>
+            <ModalChildren
+              content={formProp}
+              handleClose={close}
+            ></ModalChildren>
           </Modal>
         )}
       </AnimatePresence>
