@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2022. Feb 27. 17:37
+-- Létrehozás ideje: 2022. Már 02. 21:08
 -- Kiszolgáló verziója: 10.4.21-MariaDB
 -- PHP verzió: 8.0.10
 
@@ -184,7 +184,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `email`, `password`, `picture`, `createdAt`, `role`, `name`, `refreshToken`) VALUES
 (1, 'flash@duke.hu', '334c4a4c42fdb79d7ebc3e73b517e6f8', 'no-picture', '2021-12-24', 'owner', 'Flashduke', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJQSFBfUkVTVCIsImF1ZCI6IlJFQUNUX0ZPUlVNIiwiaWF0IjoxNjQ1OTcwODMwLCJuYmYiOjE2NDU5NzA4NDAsImV4cCI6MTY0NjA1NzIzMCwiZGF0YSI6eyJpZCI6IjEiLCJlbWFpbCI6ImZsYXNoQGR1a2UuaHUiLCJyb2xlIjoib3duZXIiLCJuYW1lIjoiRmxhc2hkdWtlIn19.jDzTSt67OeL6ex-6WxWhJ3_iqiGjSBfer8X6X9sjhEU'),
-(3, 'asd@asd.com', '7815696ecbf1c96e6894b779456d330e', 'no-picture', '2022-01-08', 'user', 'asd', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJQSFBfUkVTVCIsImF1ZCI6IlJFQUNUX0ZPUlVNIiwiaWF0IjoxNjQ1OTcwODkyLCJuYmYiOjE2NDU5NzA5MDIsImV4cCI6MTY0NjA1NzI5MiwiZGF0YSI6eyJpZCI6IjMiLCJlbWFpbCI6ImFzZEBhc2QuY29tIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiYXNkIn19.vrlDWOxfTslHCaumP3l95fYr5uMdpKPYLfB9CvXjb-E'),
+(3, 'asd@asd.com', '7815696ecbf1c96e6894b779456d330e', 'no-picture', '2022-01-08', 'user', 'asd', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJQSFBfUkVTVCIsImF1ZCI6IlJFQUNUX0ZPUlVNIiwiaWF0IjoxNjQ2MDMyMTAyLCJuYmYiOjE2NDYwMzIxMTIsImV4cCI6MTY0NjExODUwMiwiZGF0YSI6eyJpZCI6IjMiLCJlbWFpbCI6ImFzZEBhc2QuY29tIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiYXNkIn19.EJqOwqtMpyWgGF0yNx_ibD4Z7M0ukcvpCJGmSuUQtTI'),
 (7, 'asd@asd.asd', 'a3dcb4d229de6fde0db5686dee47145d', '', '2022-02-17', '', 'asdasdasd', NULL),
 (8, 'asd@asd.asd', 'd1869a99af56613eb59546eaf7ce8608', '', '2022-02-17', '', 'asdasd', NULL),
 (9, 'asdasddasasd@test.test', 'fcff23bc82122e9453714a731e020b5e', '', '2022-02-17', '', 'asdasd', NULL),

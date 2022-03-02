@@ -23,16 +23,13 @@ $post->readSingle();
 //create array
 $post_arr = array(
     'id' => $post->id,
-    'communityID' => $post->communityID,
+    'author' => $post->author,
     'communityName' => $post->communityName,
+    'title' => $post->title,
     'content' => $post->content,
-    'picture' => $post->picture,
     'createdAt' => $post->createdAt,
-    'userID' => $post->userID,
-    'userName' => $post->userName,
     'thumbsDowns' => $post->thumbsDowns,
-    'thumbsUps' => $post->thumbsUps,
-    'title' => $post->title
+    'thumbsUps' => $post->thumbsUps
 );
 
 //make JSON

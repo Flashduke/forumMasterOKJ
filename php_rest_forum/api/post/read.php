@@ -15,6 +15,8 @@ $db = $database->connect();
 //instantiate forum post object
 $post = new Post($db);
 
+$post->communityURL = isset($_GET['community']) ? str_replace('_', ' ', $_GET['community']) : '';
+
 //forum post query
 $result = $post->read();
 //get row count
@@ -31,17 +33,13 @@ if ($num > 0) {
 
         $post_item = array(
             'id' => $id,
-            'createdAt' => $createdAt,
-            'communityID' => $communityID,
+            'author' => $author,
             'communityName' => $communityName,
+            'title' => $title,
             'content' => $content,
-            'picture' => $picture,
             'createdAt' => $createdAt,
-            'userID' => $userID,
-            'author' => $userName,
             'thumbsDowns' => $thumbsDowns,
             'thumbsUps' => $thumbsUps,
-            'title' => $title
         );
 
         //push to posts array
