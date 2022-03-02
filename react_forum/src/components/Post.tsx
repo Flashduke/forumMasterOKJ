@@ -7,9 +7,10 @@ import { IPost } from '../models/Post';
 
 type Props = {
   post: IPost;
+  onCommunityPage?: boolean;
 };
 
-function Post({ post }: Props) {
+function Post({ post, onCommunityPage }: Props) {
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
 
@@ -31,12 +32,15 @@ function Post({ post }: Props) {
         <h2 id={post.id}>{post.title}</h2>
         <p className="post-info">
           Posted{' '}
-          {post.communityName && (
+          {!onCommunityPage && (
             <>
-              on <Link to="/">{post.communityName}</Link>{' '}
+              on{' '}
+              <Link to={'/c/' + post.communityName.replace(' ', '_')}>
+                {post.communityName}
+              </Link>{' '}
             </>
           )}
-          by <Link to="/">{post.author}</Link>{' '}
+          by <Link to={'/p/' + post.author}>{post.author}</Link>{' '}
           <TimeAgo datetime={post.createdAt} />
         </p>
       </header>
@@ -80,7 +84,9 @@ function Post({ post }: Props) {
             </svg>
           )}{' '}
         </button>
-        <p aria-label="Like count">{formatCount(post.thumbsUps)}</p>
+        <p aria-label="Like count">
+          {post.thumbsUps != null ? formatCount(post.thumbsUps) : 0}
+        </p>
         <button aria-label="dislike" className="btn">
           {disliked ? (
             <svg
@@ -106,7 +112,9 @@ function Post({ post }: Props) {
             </svg>
           )}{' '}
         </button>
-        <p aria-label="Dislike count">{formatCount(post.thumbsDowns)}</p>
+        <p aria-label="Dislike count">
+          {post.thumbsDowns != null ? formatCount(post.thumbsDowns) : 0}
+        </p>
         <button aria-label="comment" className="btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +126,6 @@ function Post({ post }: Props) {
           >
             <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z" />
           </svg>{' '}
-          {post.comments}
         </button>
       </div>
     </article>
