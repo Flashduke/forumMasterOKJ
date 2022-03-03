@@ -3,14 +3,18 @@ import ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
 import remarkGfm from 'remark-gfm';
 import TimeAgo from 'timeago-react';
+import useAuth from '../hooks/useAuth';
 import { IPost } from '../models/Post';
 
 type Props = {
   post: IPost;
   onCommunityPage?: boolean;
+  onProfilePage?: boolean;
 };
 
-function Post({ post, onCommunityPage }: Props) {
+function Post({ post, onCommunityPage, onProfilePage }: Props) {
+  const { auth } = useAuth();
+
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
 
@@ -25,11 +29,15 @@ function Post({ post, onCommunityPage }: Props) {
       return (Math.round((count / 1000) * 100) / 100).toLocaleString() + 'K';
     return count.toLocaleString();
   };
+  const formatAuthor = (author: string): string => {
+    if (author === auth?.name) return 'You';
+    return author;
+  };
 
   return (
-    <article className="post post-preview" aria-labelledby={post.id}>
+    <article className="post post-preview" aria-labelledby={'post_' + post.id}>
       <header>
-        <h2 id={post.id}>{post.title}</h2>
+        <h2 id={'post_' + post.id}>{post.title}</h2>
         <p className="post-info">
           Posted{' '}
           {!onCommunityPage && (
@@ -40,7 +48,12 @@ function Post({ post, onCommunityPage }: Props) {
               </Link>{' '}
             </>
           )}
-          by <Link to={'/p/' + post.author}>{post.author}</Link>{' '}
+          {!onProfilePage && (
+            <>
+              by{' '}
+              <Link to={'/p/' + post.author}>{formatAuthor(post.author)}</Link>{' '}
+            </>
+          )}
           <TimeAgo datetime={post.createdAt} />
         </p>
       </header>
