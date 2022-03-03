@@ -96,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
                 "message" => "Successful login.",
                 "accessToken" => $jwt,
                 "email" => $user->email,
+                "name" => $user->name,
                 "role" => $user->role,
                 "expireAt" => $expire_claim
             )
