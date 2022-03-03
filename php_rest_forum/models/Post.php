@@ -11,6 +11,7 @@ class Post
     public $communityID;
     public $communityURL;
     public $author;
+    public $profileURL;
     public $communityName;
     public $title;
     public $content;
@@ -38,6 +39,14 @@ class Post
             
             //bind ID
             $stmt->bindParam(1, $this->communityURL);
+        } else if ($this->profileURL) {
+            $query = 'SELECT * FROM ' . $this->view . ' WHERE author = ?';
+
+            //prepare statement
+            $stmt = $this->conn->prepare($query);
+            
+            //bind ID
+            $stmt->bindParam(1, $this->profileURL);
         } else {
             $query = 'SELECT * FROM ' . $this->view;
 

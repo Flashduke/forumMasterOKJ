@@ -16,6 +16,7 @@ $db = $database->connect();
 $post = new Post($db);
 
 $post->communityURL = isset($_GET['community']) ? str_replace('_', ' ', $_GET['community']) : '';
+$post->profileURL = isset($_GET['profile']) ? str_replace('_', ' ', $_GET['profile']) : '';
 
 //forum post query
 $result = $post->read();
