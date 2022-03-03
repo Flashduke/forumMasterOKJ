@@ -182,9 +182,13 @@ function Navbar() {
                       <ProfileButton full={inMan} />
                     </button>
                   ) : (
-                    <Link to="/profile">
+                    <Link to={/p/ + auth?.name}>
                       <ProfileButton
-                        full={location?.pathname === '/profile' ? true : false}
+                        full={
+                          location?.pathname === '/p/' + auth?.name
+                            ? true
+                            : false
+                        }
                       />
                     </Link>
                   )}
