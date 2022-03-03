@@ -50,11 +50,13 @@ function Login({ handleClose }: Prop) {
 
       const accessToken = response?.data?.accessToken;
       const role = response?.data?.role;
+      const name = response?.data?.name;
 
       handleClose();
 
       setAuth({
         email,
+        name,
         password,
         role,
         accessToken,
