@@ -7,17 +7,21 @@ import Post from './Post';
 type Props = {
   community?: string;
   onCommunityPage?: boolean;
+  profile?: string;
+  onProfilePage?: boolean;
 };
 
-function Feed({ community, onCommunityPage }: Props) {
-const navigate = useNavigate();
+function Feed({ community, onCommunityPage, profile, onProfilePage }: Props) {
+  const navigate = useNavigate();
 
   const [allPosts, setAllPosts] = useState<postData>(defaultPostData);
 
   const getPosts = async () => {
     try {
       const response = await axios.get(
-        `/post/read.php${community ? '?community=' + community : ''}`,
+        `/post/read.php${
+          community ? '?community=' + community : profile ? '?profile=' + profile : ''
+        }`,
         {
           withCredentials: true,
         }
@@ -41,7 +45,12 @@ const navigate = useNavigate();
         <p>Loading...</p>
       ) : (
         allPosts.posts.map((post, index) => (
-          <Post key={index} post={post} onCommunityPage={onCommunityPage}></Post>
+          <Post
+            key={index}
+            post={post}
+            onCommunityPage={onCommunityPage}
+            onProfilePage={onProfilePage}
+          ></Post>
         ))
       )}
     </section>
