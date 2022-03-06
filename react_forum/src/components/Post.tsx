@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
 import remarkGfm from 'remark-gfm';
 import TimeAgo from 'timeago-react';
 import useAuth from '../hooks/useAuth';
+import useRating from '../hooks/useRating';
 import { IPost } from '../models/Post';
 
 type Props = {
@@ -12,22 +13,80 @@ type Props = {
   onProfilePage?: boolean;
 };
 
+const RATING_URL = 'rated_content/';
+
 function Post({ post, onCommunityPage, onProfilePage }: Props) {
   const { auth } = useAuth();
+  const { rating } = useRating();
+
+  const previouslyLiked = rating?.likedPosts?.includes(post.id);
+  const previouslyDisliked = rating?.dislikedPosts?.includes(post.id);
+  const previouslyRated = previouslyLiked || previouslyDisliked;
 
   const [liked, setLiked] = useState(false);
+  const [likeCounter, setLikeCounter] = useState<number>(post.thumbsUps);
   const [disliked, setDisliked] = useState(false);
+  const [dislikeCounter, setDislikeCounter] = useState<number>(
+    post.thumbsDowns
+  );
+
+  const toggleLike = () => setLiked((value) => !value);
+  const toggleDislike = () => setDisliked((value) => !value);
+
+  function handleRating() {
+    if (previouslyRated) {
+      if (!liked && !disliked) {
+        /* delete */
+      }
+      if (liked || disliked) {
+        /* update */
+      }
+    } else if (liked || disliked) {
+      /* create */
+    }
+  }
+
+  useEffect(() => {
+    if (liked) {
+      setLikeCounter((value) => {
+        return previouslyLiked ? post.thumbsUps : 1;
+      });
+      setDisliked(false);
+    } else
+      setLikeCounter((value) => {
+        return previouslyLiked ? value - 1 : post.thumbsUps;
+      });
+  }, [liked]);
+
+  useEffect(() => {
+    if (disliked) {
+      setDislikeCounter((value) => {
+        return previouslyDisliked ? post.thumbsDowns : value + 1;
+      });
+      setLiked(false);
+    } else
+      setDislikeCounter((value) => {
+        return previouslyDisliked ? value - 1 : post.thumbsDowns;
+      });
+  }, [disliked]);
+
+  useEffect(() => {
+    if (previouslyLiked) {
+      setLiked(true);
+    }
+    if (previouslyDisliked) {
+      setDisliked(true);
+    }
+  }, [auth]);
 
   const formatCount = (count: number): string => {
     if (count / 1000000000 > 1)
-      return (
-        (Math.round((count / 1000000000) * 100) / 100).toLocaleString() + 'B'
-      );
+      return (Math.round((count / 1000000000) * 100) / 100).toString() + 'B';
     if (count / 1000000 > 1)
-      return (Math.round((count / 1000000) * 100) / 100).toLocaleString() + 'M';
+      return (Math.round((count / 1000000) * 100) / 100).toString() + 'M';
     if (count / 2000 > 1)
-      return (Math.round((count / 1000) * 100) / 100).toLocaleString() + 'K';
-    return count.toLocaleString();
+      return (Math.round((count / 1000) * 100) / 100).toString() + 'K';
+    return count.toString();
   };
   const formatAuthor = (author: string): string => {
     if (author === auth?.name) return 'You';
@@ -51,7 +110,8 @@ function Post({ post, onCommunityPage, onProfilePage }: Props) {
           {!onProfilePage && (
             <>
               by{' '}
-              <Link to={'/p/' + post.author}>{formatAuthor(post.author)}</Link>{' '}
+              <Link to={'/p/' + post.author}>{formatAuthor(post.author)}</Link>
+              {', '}
             </>
           )}
           <TimeAgo datetime={post.createdAt} />
@@ -72,7 +132,14 @@ function Post({ post, onCommunityPage, onProfilePage }: Props) {
         />
       </section>
       <div className="interact" aria-label="Interaction Like, Dislike, Comment">
-        <button aria-label="like" className="btn">
+        <button
+          aria-label="like"
+          className="btn"
+          onClick={() => {
+            toggleLike();
+            /* handleRating(); */
+          }}
+        >
           {liked ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -98,9 +165,16 @@ function Post({ post, onCommunityPage, onProfilePage }: Props) {
           )}{' '}
         </button>
         <p aria-label="Like count">
-          {post.thumbsUps != null ? formatCount(post.thumbsUps) : 0}
+          {likeCounter != null ? formatCount(likeCounter) : 0}
         </p>
-        <button aria-label="dislike" className="btn">
+        <button
+          aria-label="dislike"
+          className="btn"
+          onClick={() => {
+            toggleDislike();
+            /* handleRating(); */
+          }}
+        >
           {disliked ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +200,7 @@ function Post({ post, onCommunityPage, onProfilePage }: Props) {
           )}{' '}
         </button>
         <p aria-label="Dislike count">
-          {post.thumbsDowns != null ? formatCount(post.thumbsDowns) : 0}
+          {dislikeCounter != null ? formatCount(dislikeCounter) : 0}
         </p>
         <button aria-label="comment" className="btn">
           <svg
@@ -140,6 +214,8 @@ function Post({ post, onCommunityPage, onProfilePage }: Props) {
             <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z" />
           </svg>{' '}
         </button>
+
+        <p aria-label="Comment count">{formatCount(post.commentCount)}</p>
       </div>
     </article>
   );
