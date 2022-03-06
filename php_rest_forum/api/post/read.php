@@ -38,6 +38,7 @@ if ($num > 0) {
             'communityName' => $communityName,
             'title' => $title,
             'content' => $content,
+            'commentCount' => $commentCount,
             'createdAt' => $createdAt,
             'thumbsDowns' => $thumbsDowns,
             'thumbsUps' => $thumbsUps,

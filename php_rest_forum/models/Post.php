@@ -87,6 +87,7 @@ class Post
         $this->communityName = $row['communityName'];
         $this->title = $row['title'];
         $this->content = $row['content'];
+        $this->commentCount = $row['commentCount'];
         $this->createdAt = $row['createdAt'];
         $this->thumbsDowns = $row['thumbsDowns'];
         $this->thumbsUps = $row['thumbsUps'];

@@ -27,6 +27,7 @@ $post_arr = array(
     'communityName' => $post->communityName,
     'title' => $post->title,
     'content' => $post->content,
+    'commentCount' => $post->commentCount,
     'createdAt' => $post->createdAt,
     'thumbsDowns' => $post->thumbsDowns,
     'thumbsUps' => $post->thumbsUps
