@@ -1,12 +1,17 @@
 import { Outlet } from 'react-router-dom';
+import { RatingProvider } from '../context/RatingProvider';
 import Navbar from './Navbar';
 
 function Layout() {
   return (
-    <main className="App dark">
+    <>
       <Navbar />
-      <Outlet />
-    </main>
+      <main className="App">
+        <RatingProvider>
+          <Outlet />
+        </RatingProvider>
+      </main>
+    </>
   );
 }
 
