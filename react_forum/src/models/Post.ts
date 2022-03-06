@@ -1,7 +1,7 @@
 export interface IPost {
   author: string;
   communityName: string;
-  comments: string;
+  commentCount: number;
   content: string;
   createdAt: Date;
   thumbsDowns: number;
