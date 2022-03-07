@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import remarkGfm from 'remark-gfm';
 import TimeAgo from 'timeago-react';
 import useAuth from '../hooks/useAuth';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useRating from '../hooks/useRating';
 import { IPost } from '../models/Post';
 
@@ -18,6 +19,8 @@ const RATING_URL = 'rated_content/';
 function Post({ post, onCommunityPage, onProfilePage }: Props) {
   const { auth } = useAuth();
   const { rating } = useRating();
+  const axiosPrivate = useAxiosPrivate();
+  const controller = new AbortController();
 
   const previouslyLiked = rating?.likedPosts?.includes(post.id);
   const previouslyDisliked = rating?.dislikedPosts?.includes(post.id);
@@ -32,41 +35,77 @@ function Post({ post, onCommunityPage, onProfilePage }: Props) {
 
   const toggleLike = () => setLiked((value) => !value);
   const toggleDislike = () => setDisliked((value) => !value);
+  
 
-  function handleRating() {
-    if (previouslyRated) {
-      if (!liked && !disliked) {
-        /* delete */
+  const handleRating = async (likeState: boolean, dislikeState:boolean) => {
+    try {
+      if (previouslyRated) {
+        if (!likeState && !dislikeState) {
+          const response = await axiosPrivate.delete(
+            RATING_URL + 'delete.php?type=post',
+            {
+              signal: controller.signal,
+              data: JSON.stringify({ postID: post.id }),
+            }
+          );
+          console.log(response?.data);
+        }
+        if (likeState || dislikeState) {
+          const response = await axiosPrivate.put(
+            RATING_URL + 'update.php?type=post',
+            JSON.stringify({
+              postID: post.id,
+              thumbsUp: liked,
+              thumbsDown: dislikeState,
+            }),
+            {
+              signal: controller.signal,
+            }
+          );
+          console.log(response?.data);
+        }
+      } else if (likeState || dislikeState) {
+        console.log(likeState)
+        const response = await axiosPrivate.post(
+          RATING_URL + 'create.php?type=post',
+          JSON.stringify({
+            postID: post.id,
+            thumbsUp: likeState,
+            thumbsDown: dislikeState,
+          }),
+          {
+            signal: controller.signal,
+          }
+        );
+        console.log(response?.data);
       }
-      if (liked || disliked) {
-        /* update */
-      }
-    } else if (liked || disliked) {
-      /* create */
+    } catch (err) {
+      console.error(err);
     }
-  }
+    console.log("second")
+  };
 
   useEffect(() => {
     if (liked) {
       setLikeCounter((value) => {
-        return previouslyLiked ? post.thumbsUps : 1;
+        return previouslyLiked ? post.thumbsUps : Number(value) + 1;
       });
       setDisliked(false);
     } else
       setLikeCounter((value) => {
-        return previouslyLiked ? value - 1 : post.thumbsUps;
+        return previouslyLiked ? Number(value) - 1 : post.thumbsUps;
       });
   }, [liked]);
 
   useEffect(() => {
     if (disliked) {
       setDislikeCounter((value) => {
-        return previouslyDisliked ? post.thumbsDowns : value + 1;
+        return previouslyDisliked ? post.thumbsDowns : Number(value) + 1;
       });
       setLiked(false);
     } else
       setDislikeCounter((value) => {
-        return previouslyDisliked ? value - 1 : post.thumbsDowns;
+        return previouslyDisliked ? Number(value) - 1 : post.thumbsDowns;
       });
   }, [disliked]);
 
@@ -136,8 +175,8 @@ function Post({ post, onCommunityPage, onProfilePage }: Props) {
           aria-label="like"
           className="btn"
           onClick={() => {
+            handleRating(!liked, false);
             toggleLike();
-            /* handleRating(); */
           }}
         >
           {liked ? (
@@ -171,8 +210,8 @@ function Post({ post, onCommunityPage, onProfilePage }: Props) {
           aria-label="dislike"
           className="btn"
           onClick={() => {
+            handleRating(false, !disliked)
             toggleDislike();
-            /* handleRating(); */
           }}
         >
           {disliked ? (
