@@ -40,36 +40,10 @@ function Feed({ community, onCommunityPage, profile, onProfilePage }: Props) {
     }
   };
 
-  const getRated = async () => {
-    try {
-      const response = await axios.get(
-        'rated_content/read.php?profile=' + auth?.name,
-        { withCredentials: true }
-      );
-      const likedComments = response?.data?.liked_comments;
-      const dislikedComments = response?.data?.disliked_comments;
-      const likedPosts = response?.data?.liked_posts;
-      const dislikedPosts = response?.data?.disliked_posts;
-      setRated({
-        likedComments,
-        dislikedComments,
-        likedPosts,
-        dislikedPosts,
-      });
-      console.log(rating);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
+    setAllPosts(defaultPostData);
     getPosts();
-  }, []);
-
-  useEffect(() => {
-    getRated();
-    getPosts();
-  }, [auth]);
+  }, [rating]);
 
   return (
     <section role="feed" className="feed">
