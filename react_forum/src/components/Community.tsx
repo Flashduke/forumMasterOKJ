@@ -8,10 +8,13 @@ function Community({}: Props) {
   const navigate = useNavigate();
 
   return (
-    <div className="content">
-      {params.community} Community
-      <Feed community={params.community} onCommunityPage={true} />
-    </div>
+    <>
+      <main>
+        {params.community} Community
+        <Feed community={params.community} onCommunityPage={true} />
+      </main>
+      <aside></aside>
+    </>
   );
 }
 

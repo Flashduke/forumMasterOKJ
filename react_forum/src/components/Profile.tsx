@@ -1,16 +1,21 @@
-import { useNavigate, useParams } from "react-router-dom";
-import Feed from "./Feed";
+import { useNavigate, useParams } from 'react-router-dom';
+import Feed from './Feed';
 
-type Props = {}
+type Props = {};
 
 const Profile = (props: Props) => {
-    const params = useParams();
-    const navigate = useNavigate();
-    
-  return (
-    <div className="content">{params.profile} Profile
-    <Feed profile={params.profile} onProfilePage={true} /></div>
-  )
-}
+  const params = useParams();
+  const navigate = useNavigate();
 
-export default Profile
+  return (
+    <>
+      <main>
+        {params.profile} Profile
+        <Feed profile={params.profile} onProfilePage={true} />
+      </main>
+      <aside></aside>
+    </>
+  );
+};
+
+export default Profile;
