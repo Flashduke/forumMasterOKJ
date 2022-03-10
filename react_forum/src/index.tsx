@@ -5,18 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './context/AuthProvider';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-//import Bootstrap
-/* import 'bootstrap/dist/js/bootstrap.bundle';
-import 'bootstrap/dist/css/bootstrap.min.css'; */
+import { RatingProvider } from './context/RatingProvider';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          <Route path="/*" element={<App />}></Route>
-        </Routes>
+        <RatingProvider>
+          <Routes>
+            <Route path="/*" element={<App />}></Route>
+          </Routes>
+        </RatingProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,

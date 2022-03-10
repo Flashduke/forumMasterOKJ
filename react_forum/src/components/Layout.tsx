@@ -6,11 +6,9 @@ function Layout() {
   return (
     <>
       <Navbar />
-      <main className="App">
-        <RatingProvider>
-          <Outlet />
-        </RatingProvider>
-      </main>
+      <div className="content">
+        <Outlet />
+      </div>
     </>
   );
 }
