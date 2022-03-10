@@ -405,6 +405,7 @@ a {
 
 /* post */
 .post {
+  
   position: relative;
   font-size: 0.9rem;
   background-color: var(--nav-color);
@@ -412,7 +413,7 @@ a {
   border-radius: 0.6em;
   margin-bottom: 1rem;
   overflow: hidden;
-  box-shadow: 0 0.25rem 0.5rem 0 var(--spanish-gray-transparent);
+  box-shadow: 0 0.25rem 0.8rem 0rem var(--primary-transparent);
 }
 .post header {
   display: flex;
@@ -468,20 +469,42 @@ a {
   padding-block: 0.5em;
 }
 
+.post-preview {
+  cursor: pointer;
+}
 .post-preview .post-body {
   max-height: 60vh;
   overflow: hidden;
   -webkit-mask-image: linear-gradient(black 80%, transparent);
   mask-image: linear-gradient(black 80%, transparent);
 }
+.post-preview:hover {
+  box-shadow: 0 0.25rem 1rem 0 var(--primary);
+}
 
 .interact {
+  cursor: default;
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
 .interact * {
   min-width: 2.5rem;
+}
+.interact a {
+  padding: 1px 6px;
+}
+.to-post {
+  display: none;
+}
+.post-preview .to-post {
+  flex-grow: 5;
+  color: transparent;
+  transition: all 200ms ease-in-out;
+}
+.post-preview .to-post:hover,
+.post-preview .to-post:focus {
+  color: inherit;
 }
 
 /* post */
@@ -517,6 +540,12 @@ a {
 
   .post {
     border-radius: 0;
+  }
+  .interact {
+    justify-content: center;
+  }
+  .to-post {
+    display: none;
   }
 }
 
@@ -576,7 +605,7 @@ a {
     padding-top: 5rem;
   }
 
-  .feed {
+  main {
     width: calc(100% / 3 * 2);
   }
 }
