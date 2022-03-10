@@ -22,7 +22,7 @@ $db = $database->connect();
 $table_name = isset($_GET['type']) && ($_GET['type'] == 'comment' || $_GET['type'] == 'post') ? $_GET['type'] : die();
 
 //instantiate forum rated content object
-$rated_content = new RatedContent($db, $table_name . 's');
+$rated_content = new RatedContent($db, $table_name);
 
 //get raw posted data
 $data = json_decode(file_get_contents("php://input"));
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     try {
 
         $decoded = JWT::decode($jwt, $secret_key, array('HS256'));
-        $rated_content->postID = $data->postID;
+        $rated_content->id = $data->id;
         $rated_content->userID = $decoded->data->id;
         $rated_content->thumbsDown = $data->thumbsDown ? 1 : 0;
         $rated_content->thumbsUp = $data->thumbsUp ? 1 : 0;

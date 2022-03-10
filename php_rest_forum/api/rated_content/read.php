@@ -13,10 +13,10 @@ $database = new Database();
 $db = $database->connect();
 
 //instantiate rated posts object
-$rated_posts = new RatedContent($db, 'posts');
+$rated_posts = new RatedContent($db, 'post');
 
 //instantiate rated comments object
-$rated_comments = new RatedContent($db, 'comments');
+$rated_comments = new RatedContent($db, 'comment');
 
 $userName = isset($_GET['profile']) ? $_GET['profile'] : die();
 $rated_posts->userName = $userName;
