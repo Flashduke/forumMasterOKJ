@@ -2,8 +2,10 @@ import ReactMarkdown from 'react-markdown';
 import { Link, useNavigate } from 'react-router-dom';
 import remarkGfm from 'remark-gfm';
 import TimeAgo from 'timeago-react';
+import { formatAuthor, formatCount } from '../helpers';
 import useAuth from '../hooks/useAuth';
 import { IPost } from '../models/Post';
+import Comment from './Comment';
 import Rating from './Rating';
 
 type Props = {
@@ -18,22 +20,8 @@ function Post({ post, onCommunityPage, onProfilePage, onPostPage }: Props) {
 
   const navigate = useNavigate();
 
-  const handleChildElementClick = (e) => {
+  const handleChildElementClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-  };
-
-  const formatCount = (count: number): string => {
-    if (count / 1000000000 > 1)
-      return (Math.round((count / 1000000000) * 100) / 100).toString() + 'B';
-    if (count / 1000000 > 1)
-      return (Math.round((count / 1000000) * 100) / 100).toString() + 'M';
-    if (count / 2000 > 1)
-      return (Math.round((count / 1000) * 100) / 100).toString() + 'K';
-    return count.toString();
-  };
-  const formatAuthor = (author: string): string => {
-    if (author === auth?.name) return 'You';
-    return author;
   };
 
   return (
@@ -47,7 +35,7 @@ function Post({ post, onCommunityPage, onProfilePage, onPostPage }: Props) {
     >
       <header>
         <h2 id={'post_' + post.id}>{post.title}</h2>
-        <p className="post-info">
+        <span className="content-info">
           Posted{' '}
           {!onCommunityPage && !onPostPage && (
             <>
@@ -67,13 +55,13 @@ function Post({ post, onCommunityPage, onProfilePage, onPostPage }: Props) {
                 to={'/p/' + post.author}
                 onClick={(e) => handleChildElementClick(e)}
               >
-                {formatAuthor(post.author)}
+                {formatAuthor(post.author, auth?.name)}
               </Link>
               {', '}
             </>
           )}
           <TimeAgo datetime={post.createdAt} />
-        </p>
+        </span>
       </header>
       <section aria-label="Post body" className="post-body">
         <ReactMarkdown
