@@ -14,25 +14,8 @@ export interface commentData {
   isLoaded: boolean;
   comments: IComment[];
 }
-export interface singleCommentData {
-  isLoaded: boolean;
-  comment: IComment;
-}
-export const defaultPostData: commentData = {
+
+export const defaultCommentData: commentData = {
   isLoaded: false,
   comments: [],
-};
-export const defaultSinglePostData: singleCommentData = {
-  isLoaded: false,
-  comment: {
-    author: '',
-    communityName: '',
-    content: '',
-    createdAt: null,
-    thumbsDowns: 0,
-    thumbsUps: 0,
-    id: '',
-    postID: '',
-    postTitle: '',
-  },
 };
