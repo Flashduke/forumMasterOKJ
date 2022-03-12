@@ -5,7 +5,7 @@ import TimeAgo from 'timeago-react';
 import { formatAuthor, formatCount } from '../helpers';
 import useAuth from '../hooks/useAuth';
 import { IPost } from '../models/Post';
-import Comment from './Comment';
+import CommentSection from './CommentSection';
 import Rating from './Rating';
 
 type Props = {
@@ -114,7 +114,12 @@ function Post({ post, onCommunityPage, onProfilePage, onPostPage }: Props) {
 
         <p aria-label="Comment count">{formatCount(post.commentCount)}</p>
       </div>
-      {onPostPage && <section></section>}
+      {onPostPage &&
+        (post.commentCount != 0 ? (
+          <CommentSection postID={post.id} />
+        ) : (
+          <p>It's quiet here...</p>
+        ))}
     </article>
   );
 }
