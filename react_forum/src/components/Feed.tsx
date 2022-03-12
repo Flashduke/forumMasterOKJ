@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
-import useAuth from '../hooks/useAuth';
 import useRating from '../hooks/useRating';
 import { defaultPostData, postData } from '../models/Post';
 import Post from './Post';
@@ -14,8 +13,7 @@ type Props = {
 };
 
 function Feed({ community, onCommunityPage, profile, onProfilePage }: Props) {
-  const { auth } = useAuth();
-  const { rating, setRated } = useRating();
+  const { rating } = useRating();
   const navigate = useNavigate();
 
   const [allPosts, setAllPosts] = useState<postData>(defaultPostData);
