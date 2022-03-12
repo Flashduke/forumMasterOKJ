@@ -405,7 +405,6 @@ a {
 
 /* post */
 .post {
-  
   position: relative;
   font-size: 0.9rem;
   background-color: var(--nav-color);
@@ -422,10 +421,10 @@ a {
   background-color: var(--primary);
   padding: 0 0.5rem 0.25em 1em;
 }
-.post section {
+.post-body {
   padding-inline: 2rem;
 }
-.post-info {
+.content-info {
   align-self: flex-end;
   margin: 0;
   font-size: 0.7rem;
@@ -443,7 +442,7 @@ a {
   margin: 0.8rem 0 0 0;
 }
 .light .post h2,
-.light .post-info {
+.light .content-info {
   color: var(--mint-cream);
   --link: var(--wild-blue-yonder);
 }
@@ -487,6 +486,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-left: 1rem;
 }
 .interact * {
   min-width: 2.5rem;
@@ -509,6 +509,50 @@ a {
 }
 
 /* post */
+
+/* comment */
+
+.profile-pic {
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-inline: 0.25rem;
+  padding-top: 0.5em;
+  background-color: var(--accent-transparent);
+  border-radius: 100%;
+}
+.comment {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 1rem;
+  width: 100%;
+  padding-right: 1.5rem;
+}
+.comment .content-info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+.comment .content-info div {
+  margin-top: 1em;
+}
+.comment .content-info span {
+  padding-top: 0.8em;
+  border-top: solid var(--accent-transparent) 0.1rem;
+  width: 100%;
+}
+.comment-body {
+  padding-left: 2rem;
+}
+.comment .interact {
+  justify-content: flex-start;
+}
+.transparent {
+  background-color: transparent;
+}
+
+/* comment */
 
 /* feed */
 .feed {
@@ -543,7 +587,7 @@ a {
     border-radius: 0;
   }
   .interact {
-    justify-content: center;
+    justify-content: flex-start;
   }
   .to-post {
     display: none;
