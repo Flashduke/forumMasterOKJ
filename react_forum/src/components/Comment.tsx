@@ -56,7 +56,7 @@ function Comment({ comment, onProfilePage }: Props) {
       </section>
       <div className="interact" aria-label="Interaction Like, Dislike">
         <Rating
-          type="post"
+          type="comment"
           id={comment.id}
           thumbsUps={comment.thumbsUps}
           thumbsDowns={comment.thumbsDowns}
