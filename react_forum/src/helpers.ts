@@ -12,3 +12,5 @@ export const formatCount = (count: number): string => {
     return (Math.round((count / 1000) * 100) / 100).toString() + 'K';
   return count.toString();
 };
+
+export const capitalize = (line: string):string => line.charAt(0).toUpperCase() + line.slice(1);
