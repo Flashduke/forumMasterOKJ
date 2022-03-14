@@ -36,12 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
         $decoded = JWT::decode($jwt, $secret_key, array('HS256'));
 
+        $post->userID = $decoded->data->id;
         $post->communityID = $data->communityID;
         $post->content = $data->content;
-        $post->picture = $data->picture;
-        $post->userID = $decoded->data->id;
-        $post->thumbsDowns = 0;
-        $post->thumbsUps = 0;
         $post->title = $data->title;
 
         //create post
