@@ -36,22 +36,22 @@ $num_c = $result_c->rowCount();
 if ($num_p > 0 || $num_c > 0) {
     //rated array
     $rated_arr = array();
-    $rated_arr['liked_posts'] = array();
-    $rated_arr['disliked_posts'] = array();
-    $rated_arr['liked_comments'] = array();
-    $rated_arr['disliked_comments'] = array();
+    $rated_arr['likedPosts'] = array();
+    $rated_arr['dislikedPosts'] = array();
+    $rated_arr['likedComments'] = array();
+    $rated_arr['dislikedComments'] = array();
     while ($row = $result_p->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
-        if ($thumbsUp == 1) array_push($rated_arr['liked_posts'], $postID);
-        if ($thumbsDown == 1) array_push($rated_arr['disliked_posts'], $postID);
+        if ($thumbsUp == 1) array_push($rated_arr['likedPosts'], $postID);
+        if ($thumbsDown == 1) array_push($rated_arr['dislikedPosts'], $postID);
     }
 
     while ($row = $result_c->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
-        if ($thumbsUp == 1) array_push($rated_arr['liked_comments'], $commentID);
-        if ($thumbsDown == 1) array_push($rated_arr['disliked_comments'], $commentID);
+        if ($thumbsUp == 1) array_push($rated_arr['likedComments'], $commentID);
+        if ($thumbsDown == 1) array_push($rated_arr['dislikedComments'], $commentID);
     }
-    
+
     //turn to JSON and output
     echo json_encode($rated_arr);
     http_response_code(200);
