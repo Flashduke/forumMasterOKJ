@@ -1,24 +1,26 @@
 <?php
-    class Community {
-        private $conn;
-        private $table = 'communities';
+class Community
+{
+    private $conn;
+    private $table = 'communities';
 
-        //community props
-        public $id;
-        public $createdAt;
-        public $description;
-        public $name;
+    //community props
+    public $id;
+    public $createdAt;
+    public $description;
+    public $name;
 
-        //ctor
-        public function __construct($db)
-        {
-            $this->conn = $db;
-        }
+    //ctor
+    public function __construct($db)
+    {
+        $this->conn = $db;
+    }
 
-        //get communities
-        public function read() {
-            //create query
-            $query = 'SELECT
+    //get communities
+    public function read()
+    {
+        //create query
+        $query = 'SELECT
                 id,
                 createdAt,
                 description,
@@ -28,19 +30,20 @@
             ORDER BY
                 createdAt DESC';
 
-            //prep stmt
-            $stmt = $this->conn->prepare($query);
+        //prep stmt
+        $stmt = $this->conn->prepare($query);
 
-            //exec query
-            $stmt->execute();
+        //exec query
+        $stmt->execute();
 
-            return $stmt;
-        }
+        return $stmt;
+    }
 
-        //get single community
-        public function readSingle() {
-            //create query
-            $query = 'SELECT
+    //get single community
+    public function readSingle()
+    {
+        //create query
+        $query = 'SELECT
                 id,
                 createdAt,
                 description,
@@ -51,109 +54,112 @@
                 id = ?
             LIMIT 0,1';
 
-            //prepare statement
-            $stmt = $this->conn->prepare($query);
+        //prepare statement
+        $stmt = $this->conn->prepare($query);
 
-            //bind ID
-            $stmt->bindParam(1, $this->id);
+        //bind ID
+        $stmt->bindParam(1, $this->id);
 
-            //execute statement
-            $stmt->execute();
+        //execute statement
+        $stmt->execute();
 
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            //set properties
-            $this->createdAt = $row['createdAt'];
-            $this->description = $row['description'];
-            $this->name = $row['name'];
-        }
+        //set properties
+        $this->createdAt = $row['createdAt'];
+        $this->description = $row['description'];
+        $this->name = $row['name'];
+    }
 
-        //create community
-        public function create() {
-            //create query
-            $query = 'INSERT INTO ' . $this->table . '
+    //create community
+    public function create()
+    {
+        //create query
+        $query = 'INSERT INTO ' . $this->table . '
             SET
                 description = :description,
                 name = :name';
 
-            //prepare statement
-            $stmt = $this->conn->prepare($query);
+        //prepare statement
+        $stmt = $this->conn->prepare($query);
 
-            //clean data
-            $this->description = htmlspecialchars(strip_tags($this->description));
-            $this->name = htmlspecialchars(strip_tags($this->name));
+        //clean data
+        $this->description = htmlspecialchars(strip_tags($this->description));
+        $this->name = htmlspecialchars(strip_tags($this->name));
 
-            //bind data
-            $stmt->bindParam(':description', $this->description);
-            $stmt->bindParam(':name', $this->name);
+        //bind data
+        $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':name', $this->name);
 
-            //execute query
-            if ($stmt->execute()) {
-                return true;
-            }
-
-            //print error if something goes wrong
-            printf("Error: %s.\n", $stmt->error);
-
-            return false;
+        //execute query
+        if ($stmt->execute()) {
+            return true;
         }
 
-        //update community
-        public function update() {
-            //create query
-            $query = 'UPDATE ' . $this->table . '
+        //print error if something goes wrong
+        printf("Error: %s.\n", $stmt->error);
+
+        return false;
+    }
+
+    //update community
+    public function update()
+    {
+        //create query
+        $query = 'UPDATE ' . $this->table . '
             SET
                 description = :description,
                 name = :name
             WHERE
                 id = :id';
 
-            //prepare statement
-            $stmt = $this->conn->prepare($query);
+        //prepare statement
+        $stmt = $this->conn->prepare($query);
 
-            //clean data
-            $this->id = htmlspecialchars(strip_tags($this->id));
-            $this->description = htmlspecialchars(strip_tags($this->description));
-            $this->name = htmlspecialchars(strip_tags($this->name));
+        //clean data
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->description = htmlspecialchars(strip_tags($this->description));
+        $this->name = htmlspecialchars(strip_tags($this->name));
 
-            //bind data
-            $stmt->bindParam(':id', $this->id);
-            $stmt->bindParam(':description', $this->description);
-            $stmt->bindParam(':name', $this->name);
+        //bind data
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':name', $this->name);
 
-            //execute query
-            if ($stmt->execute()) {
-                return true;
-            }
-
-            //print error if something goes wrong
-            printf("Error: %s.\n", $stmt->error);
-
-            return false;
+        //execute query
+        if ($stmt->execute()) {
+            return true;
         }
 
-        //delete community
-        public function delete() {
-            //create query
-            $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+        //print error if something goes wrong
+        printf("Error: %s.\n", $stmt->error);
 
-            //prepare statement
-            $stmt = $this->conn->prepare($query);
-
-            //clean data
-            $this->id = htmlspecialchars(strip_tags($this->id));
-
-            //bind data
-            $stmt->bindParam(':id', $this->id);
-
-            //execute query
-            if ($stmt->execute()) {
-                return true;
-            }
-
-            //print error if something goes wrong
-            printf("Error: %s.\n", $stmt->error);
-
-            return false;
-        }
+        return false;
     }
+
+    //delete community
+    public function delete()
+    {
+        //create query
+        $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+
+        //prepare statement
+        $stmt = $this->conn->prepare($query);
+
+        //clean data
+        $this->id = htmlspecialchars(strip_tags($this->id));
+
+        //bind data
+        $stmt->bindParam(':id', $this->id);
+
+        //execute query
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        //print error if something goes wrong
+        printf("Error: %s.\n", $stmt->error);
+
+        return false;
+    }
+}

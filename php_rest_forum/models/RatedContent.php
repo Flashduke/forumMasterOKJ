@@ -43,7 +43,7 @@ class RatedContent
         $query = 'SELECT * FROM rated' . $this->table . 's
             WHERE
                 userID = :userID AND
-                '.$this->table.'ID = :id;';
+                ' . $this->table . 'ID = :id;';
 
         //prepare statement
         $stmt = $this->conn->prepare($query);
@@ -68,7 +68,7 @@ class RatedContent
         //create query
         $query = 'INSERT INTO rated' . $this->table . 's
             SET
-                '.$this->table.'ID = :id,
+                ' . $this->table . 'ID = :id,
                 userID = :userID,
                 thumbsUp = :thumbsUp,
                 thumbsDown = :thumbsDown';
@@ -108,7 +108,7 @@ class RatedContent
                 thumbsUp = :thumbsUp,
                 thumbsDown = :thumbsDown
             WHERE
-                '.$this->table.'ID = :id AND
+                ' . $this->table . 'ID = :id AND
                 userID = :userID';
 
         //prepare statement
@@ -143,7 +143,7 @@ class RatedContent
         //create query
         $query = 'DELETE FROM rated' . $this->table . 's
             WHERE
-                '.$this->table.'ID = :id AND
+                ' . $this->table . 'ID = :id AND
                 userID = :userID';
 
         //prepare statement

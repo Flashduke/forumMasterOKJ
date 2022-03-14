@@ -36,7 +36,7 @@ class Post
 
             //prepare statement
             $stmt = $this->conn->prepare($query);
-            
+
             //bind ID
             $stmt->bindParam(1, $this->communityURL);
         } else if ($this->profileURL) {
@@ -44,7 +44,7 @@ class Post
 
             //prepare statement
             $stmt = $this->conn->prepare($query);
-            
+
             //bind ID
             $stmt->bindParam(1, $this->profileURL);
         } else {
