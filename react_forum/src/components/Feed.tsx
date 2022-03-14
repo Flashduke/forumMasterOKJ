@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
+import useAuth from '../hooks/useAuth';
 import useRating from '../hooks/useRating';
 import { defaultPostData, postData } from '../models/Post';
 import Post from './Post';
@@ -13,7 +14,8 @@ type Props = {
 };
 
 function Feed({ community, onCommunityPage, profile, onProfilePage }: Props) {
-  const { rating } = useRating();
+  const { setRated } = useRating();
+  const { auth } = useAuth();
   const navigate = useNavigate();
 
   const [allPosts, setAllPosts] = useState<postData>(defaultPostData);
@@ -38,10 +40,30 @@ function Feed({ community, onCommunityPage, profile, onProfilePage }: Props) {
     }
   };
 
+  const getRated = async () => {
+    try {
+      const response = await axios.get(
+        'rated_content/read.php?profile=' + auth?.name,
+        { withCredentials: true }
+      );
+      const responseObj = response?.data;
+      setRated(responseObj);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
+    getRated();
     setAllPosts(defaultPostData);
     getPosts();
-  }, [rating]);
+  }, []);
+
+  useEffect(() => {
+    getRated();
+    setAllPosts(defaultPostData);
+    getPosts();
+  }, [auth?.email]);
 
   return (
     <section role="feed" className="feed">
