@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import useAuth from '../hooks/useAuth';
 import useRating from '../hooks/useRating';
@@ -16,7 +15,6 @@ type Props = {
 function Feed({ community, onCommunityPage, profile, onProfilePage }: Props) {
   const { setRated } = useRating();
   const { auth } = useAuth();
-  const navigate = useNavigate();
 
   const [allPosts, setAllPosts] = useState<postData>(defaultPostData);
 
@@ -36,7 +34,6 @@ function Feed({ community, onCommunityPage, profile, onProfilePage }: Props) {
       setAllPosts({ isLoaded: true, posts: responseObj?.posts });
     } catch (err) {
       console.error(err);
-      navigate('/404');
     }
   };
 
