@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import Feed from './Feed';
+import PageWrapper from './PageWrapper';
 
 type Props = {};
 
@@ -8,13 +9,9 @@ const Profile = (props: Props) => {
   const navigate = useNavigate();
 
   return (
-    <>
-      <main>
-        {params.profile} Profile
+    <PageWrapper type='profile' name={params.profile}>
         <Feed profile={params.profile} onProfilePage={true} />
-      </main>
-      <aside></aside>
-    </>
+    </PageWrapper>
   );
 };
 

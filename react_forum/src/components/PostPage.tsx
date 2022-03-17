@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from '../api/axios';
 import useAuth from '../hooks/useAuth';
 import { defaultSinglePostData, singlePostData } from '../models/Post';
+import PageWrapper from './PageWrapper';
 import Post from './Post';
 
 type Props = {};
@@ -35,14 +36,13 @@ function PostPage({}: Props) {
 
   return (
     <>
-      <main>
-        {!singlePost.isLoaded ? (
-          <p>Loading...</p>
-        ) : (
+      {!singlePost.isLoaded ? (
+        <p>Loading...</p>
+      ) : (
+        <PageWrapper type="post" post={singlePost.post}>
           <Post post={singlePost.post} onPostPage={true}></Post>
-        )}
-      </main>
-      <aside></aside>
+        </PageWrapper>
+      )}
     </>
   );
 }
