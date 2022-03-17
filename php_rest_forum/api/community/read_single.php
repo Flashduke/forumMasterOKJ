@@ -14,8 +14,8 @@ $db = $database->connect();
 //instantiate forum community object
 $community = new community($db);
 
-//get ID
-$community->id = isset($_GET['id']) ? $_GET['id'] : die();
+//get name
+$community->name = isset($_GET['name']) ? str_replace('_', ' ', $_GET['name']) : die();
 
 //get community
 $community->readSingle();
@@ -25,7 +25,10 @@ $community_arr = array(
     'id' => $community->id,
     'createdAt' => $community->createdAt,
     'description' => $community->description,
-    'name' => $community->name
+    'name' => $community->name,
+    'memberCount' => $community->memberCount,
+    'icon' => $community->icon,
+    'banner' => $community->banner
 );
 
 //make JSON

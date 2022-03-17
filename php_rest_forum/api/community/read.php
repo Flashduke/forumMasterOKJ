@@ -32,18 +32,20 @@ if ($num > 0) {
             'id' => $id,
             'createdAt' => $createdAt,
             'description' => $description,
-            'name' => $name
+            'name' => $name,
+            'memberCount' => $memberCount,
+            'icon' => $icon,
+            'banner' => $banner
         );
 
         //push to "data"
         array_push($communities_arr['data'], $community_item);
     }
-    
+
     //turn to JSON and output
     echo json_encode($communities_arr);
     http_response_code(200);
-} 
-else {
+} else {
     //no communities
     echo json_encode(
         array('message' => 'No Communities Found')

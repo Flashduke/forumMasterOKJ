@@ -9,6 +9,9 @@ class Community
     public $createdAt;
     public $description;
     public $name;
+    public $icon;
+    public $banner;
+    public $memberCount;
 
     //ctor
     public function __construct($db)
@@ -21,12 +24,17 @@ class Community
     {
         //create query
         $query = 'SELECT
-                id,
-                createdAt,
-                description,
-                name
+                c.id,
+                c.createdAt,
+                c.description,
+                c.name,
+                c.icon,
+                c.banner,
+                COUNT(m.userID) AS memberCount
             FROM
-                ' . $this->table . '
+                ' . $this->table . ' c
+            LEFT JOIN
+                members m ON m.communityID = c.id
             ORDER BY
                 createdAt DESC';
 
@@ -44,21 +52,26 @@ class Community
     {
         //create query
         $query = 'SELECT
-                id,
-                createdAt,
-                description,
-                name
+                c.id,
+                c.createdAt,
+                c.description,
+                c.name,
+                c.icon,
+                c.banner,
+                COUNT(m.userID) AS memberCount
             FROM
-                ' . $this->table . '
+                ' . $this->table . ' c
+            LEFT JOIN
+                members m ON m.communityID = c.id
             WHERE
-                id = ?
+                c.name = ?
             LIMIT 0,1';
 
         //prepare statement
         $stmt = $this->conn->prepare($query);
 
-        //bind ID
-        $stmt->bindParam(1, $this->id);
+        //bind name
+        $stmt->bindParam(1, $this->name);
 
         //execute statement
         $stmt->execute();
@@ -68,7 +81,11 @@ class Community
         //set properties
         $this->createdAt = $row['createdAt'];
         $this->description = $row['description'];
+        $this->id = $row['id'];
         $this->name = $row['name'];
+        $this->icon = $row['icon'];
+        $this->banner = $row['banner'];
+        $this->memberCount = $row['memberCount'];
     }
 
     //create community
