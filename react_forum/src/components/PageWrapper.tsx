@@ -71,28 +71,31 @@ function PageWrapper({ type, name, children, post }: Props) {
         <PageHeader
           type={type}
           name={name}
+          id={profile.data
+            ? profile?.data?.id
+            : community.data && community?.data?.id}
           peopleCount={
-            profile
+            profile.data
               ? profile?.data?.followerCount
-              : community && community?.data?.memberCount
+              : community.data && community?.data?.memberCount
           }
           description={
-            profile
+            profile?.data
               ? profile?.data?.description
-              : community && community?.data?.description
+              : community?.data && community?.data?.description
           }
           createdAt={
-            profile
+            profile?.data
               ? profile?.data?.createdAt
-              : community && community?.data?.createdAt
+              : community?.data && community?.data?.createdAt
           }
           icon={
-            profile ? profile?.data?.icon : community && community?.data?.icon
+            profile?.data ? profile?.data?.icon : community?.data && community?.data?.icon
           }
           banner={
-            profile
+            profile?.data
               ? profile?.data?.banner
-              : community && community?.data?.banner
+              : community?.data && community?.data?.banner
           }
         />
       ) : (
