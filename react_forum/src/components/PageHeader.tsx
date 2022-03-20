@@ -1,7 +1,11 @@
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
+import { BASE_URL } from '../api/axios';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 type Props = {
+  id?: string;
   type: string;
   name?: string;
   peopleCount?: number;
@@ -11,9 +15,10 @@ type Props = {
   banner?: string;
 };
 
-const IMG_URL = 'http://localhost/forumMasterOKJ/php_rest_forum/img/';
+const IMG_URL = BASE_URL + 'img/';
 
 function PageHeader({
+  id,
   type,
   name,
   peopleCount,
@@ -23,6 +28,52 @@ function PageHeader({
   banner,
 }: Props) {
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
+  const axiosPrivate = useAxiosPrivate();
+  const controller = new AbortController();
+
+  const [followOrJoin, setFollowOrJoinState] = useState(false);
+
+  const getFollowingOrJoined = async () => {
+    try {
+      const response = await axiosPrivate.get(
+        `${type === 'profile' ? 'follow' : 'join'}/check.php?${type}ID=` + id
+      );
+      response?.data?.state && setFollowOrJoinState(response?.data?.state);
+      console.log(followOrJoin)
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleClick = async (followOrJoinState: boolean) => {
+    try {
+      if (!followOrJoinState) {
+        const response = await axiosPrivate.delete(
+          `${type === 'profile' ? 'follow' : 'join'}/delete.php`,
+          {
+            signal: controller.signal,
+            data: JSON.stringify({ [type + 'ID']: id }),
+          }
+        );
+      }
+      if (followOrJoinState) {
+        const response = await axiosPrivate.post(
+          `${type === 'profile' ? 'follow' : 'join'}/create.php`,
+          JSON.stringify({
+            [type + 'ID']: id,
+          }),
+          { signal: controller.signal }
+        );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    getFollowingOrJoined();
+  }, []);
+
   return (
     <header className="page-header">
       <div className="banner" role="banner">
@@ -58,7 +109,7 @@ function PageHeader({
               <h1>{name}</h1>
               {isMobile && (
                 <>
-                  <span>{'Description'}</span>
+                  <span>{description}</span>
                   <br />
                   <span>
                     {type === 'profile' ? 'Followers: ' : 'Members: '}
@@ -67,12 +118,18 @@ function PageHeader({
                 </>
               )}
             </div>
-            <button className="btn hollow">
+            <button
+              className="btn hollow"
+              onClick={() => {
+                setFollowOrJoinState((value) => !value);
+                handleClick(!followOrJoin);
+              }}
+            >
               {type === 'profile'
-                ? true
+                ? followOrJoin
                   ? 'Followed'
                   : 'Follow'
-                : type === 'community' && (true ? 'Joined' : 'Join')}
+                : type === 'community' && (followOrJoin ? 'Joined' : 'Join')}
             </button>
             {type !== 'profile' && isMobile && (
               <button className="btn full">Create Post</button>
