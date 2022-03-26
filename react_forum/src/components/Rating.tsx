@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { capitalize } from '../helpers';
 import useAuth from '../hooks/useAuth';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useRating from '../hooks/useRating';
@@ -18,8 +19,12 @@ function Rating(props: Props) {
   const axiosPrivate = useAxiosPrivate();
   const controller = new AbortController();
 
-  const previouslyLiked = rating?.likedPosts?.includes(props.id);
-  const previouslyDisliked = rating?.dislikedPosts?.includes(props.id);
+  const previouslyLiked = rating
+    ? rating['liked' + capitalize(props.type) + 's']?.includes(props.id)
+    : false;
+  const previouslyDisliked = rating
+    ? rating['disliked' + capitalize(props.type) + 's'].includes(props.id)
+    : false;
 
   const [liked, setLiked] = useState(false);
   const [likeCounter, setLikeCounter] = useState<number>(props.thumbsUps);
@@ -27,7 +32,9 @@ function Rating(props: Props) {
   const [dislikeCounter, setDislikeCounter] = useState<number>(
     props.thumbsDowns
   );
-  const [previouslyRated, setPreviouslyRated] = useState(previouslyLiked || previouslyDisliked);
+  const [previouslyRated, setPreviouslyRated] = useState(
+    previouslyLiked || previouslyDisliked
+  );
 
   const toggleLike = () => setLiked((value) => !value);
   const toggleDislike = () => setDisliked((value) => !value);
@@ -43,7 +50,7 @@ function Rating(props: Props) {
               data: JSON.stringify({ id: props.id, commentID: props.id }),
             }
           );
-          if (response.status === 200) setPreviouslyRated(false); 
+          if (response.status === 200) setPreviouslyRated(false);
         }
         if (likeState || dislikeState) {
           const response = await axiosPrivate.put(
@@ -57,7 +64,7 @@ function Rating(props: Props) {
               signal: controller.signal,
             }
           );
-          if (response.status === 200) setPreviouslyRated(true); 
+          if (response.status === 200) setPreviouslyRated(true);
         }
       } else if (likeState || dislikeState) {
         const response = await axiosPrivate.post(
@@ -71,7 +78,7 @@ function Rating(props: Props) {
             signal: controller.signal,
           }
         );
-        if (response.status === 200) setPreviouslyRated(true); 
+        if (response.status === 200) setPreviouslyRated(true);
       }
     } catch (err) {
       console.error(err);
