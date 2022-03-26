@@ -39,7 +39,7 @@ function PageHeader({
         `${type === 'profile' ? 'follow' : 'join'}/check.php?${type}ID=` + id
       );
       response?.data?.state && setFollowOrJoinState(response?.data?.state);
-      console.log(followOrJoin)
+      console.log(followOrJoin);
     } catch (err) {
       console.error(err);
     }
@@ -94,7 +94,11 @@ function PageHeader({
             className="header-icon"
             onError={({ currentTarget }) => {
               currentTarget.onerror = null; // prevents looping
-              currentTarget.src = IMG_URL + 'unnamed.png';
+              currentTarget.src =
+                IMG_URL +
+                (type === 'post' ? 'community' : type) +
+                '/icons/' +
+                'default.png';
             }}
           />
         </div>
@@ -127,7 +131,7 @@ function PageHeader({
             >
               {type === 'profile'
                 ? followOrJoin
-                  ? 'Followed'
+                  ? 'Following'
                   : 'Follow'
                 : type === 'community' && (followOrJoin ? 'Joined' : 'Join')}
             </button>
