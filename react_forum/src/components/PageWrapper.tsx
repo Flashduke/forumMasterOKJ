@@ -1,9 +1,12 @@
+import { AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import axios from '../api/axios';
 import { communityData, defaultCommunityData } from '../models/Community';
 import { IPost } from '../models/Post';
 import { defaultProfileData, profileData } from '../models/Profile';
+import CreateContent from './CreateContent';
+import Modal from './Modal';
 import PageAbout from './PageAbout';
 import PageHeader from './PageHeader';
 
@@ -17,6 +20,7 @@ type Props = {
 function PageWrapper({ type, name, children, post }: Props) {
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
+  const [modalOpen, setModalOpen] = useState(false);
   const [community, setCommunity] =
     useState<communityData>(defaultCommunityData);
   const [profile, setProfile] = useState<profileData>(defaultProfileData);
@@ -71,9 +75,11 @@ function PageWrapper({ type, name, children, post }: Props) {
         <PageHeader
           type={type}
           name={name}
-          id={profile.data
-            ? profile?.data?.id
-            : community.data && community?.data?.id}
+          id={
+            profile.data
+              ? profile?.data?.id
+              : community.data && community?.data?.id
+          }
           peopleCount={
             profile.data
               ? profile?.data?.followerCount
@@ -90,7 +96,9 @@ function PageWrapper({ type, name, children, post }: Props) {
               : community?.data && community?.data?.createdAt
           }
           icon={
-            profile?.data ? profile?.data?.icon : community?.data && community?.data?.icon
+            profile?.data
+              ? profile?.data?.icon
+              : community?.data && community?.data?.icon
           }
           banner={
             profile?.data
@@ -104,7 +112,17 @@ function PageWrapper({ type, name, children, post }: Props) {
       )}
 
       <div className="content">
-        <main>{children}</main>
+        <main>
+          {type !== 'profile' && community.isLoaded && (
+            <div className="post">
+              <CreateContent
+                type="post"
+                cID={community?.data?.id}
+              ></CreateContent>
+            </div>
+          )}
+          {children}
+        </main>
         <aside>
           <div className="sticky">
             {community.isLoaded && profile.isLoaded ? (
@@ -112,6 +130,7 @@ function PageWrapper({ type, name, children, post }: Props) {
                 <PageAbout
                   type="home"
                   description="This is the Forum's front page, here you can see the latest posts."
+                  handleOpen={() => setModalOpen(true)}
                 />
               ) : type !== 'post' ? (
                 <PageAbout
@@ -131,6 +150,7 @@ function PageWrapper({ type, name, children, post }: Props) {
                       ? profile?.data?.createdAt
                       : community.data && community?.data?.createdAt
                   }
+                  handleOpen={() => setModalOpen(true)}
                 />
               ) : (
                 <>
@@ -140,6 +160,7 @@ function PageWrapper({ type, name, children, post }: Props) {
                     peopleCount={community.data.memberCount}
                     description={community.data.description}
                     createdAt={community.data.createdAt}
+                    handleOpen={() => setModalOpen(true)}
                   />
                   <PageAbout
                     type={'profile'}
@@ -156,6 +177,17 @@ function PageWrapper({ type, name, children, post }: Props) {
           </div>
         </aside>
       </div>
+      <AnimatePresence
+        initial={false}
+        exitBeforeEnter={true}
+        onExitComplete={() => null}
+      >
+        {modalOpen && (
+          <Modal handleClose={() => setModalOpen(false)}>
+            <CreateContent type="post" cID={community?.data?.id} />
+          </Modal>
+        )}
+      </AnimatePresence>
     </>
   );
 }
