@@ -6,9 +6,17 @@ type Props = {
   peopleCount?: number;
   description?: string;
   createdAt?: Date;
+  handleOpen?: () => void;
 };
 
-function PageAbout({ type, peopleCount, createdAt, description, name }: Props) {
+function PageAbout({
+  type,
+  peopleCount,
+  createdAt,
+  description,
+  name,
+  handleOpen,
+}: Props) {
   const createdAtDate = new Date(createdAt);
   const createdAtString = createdAtDate.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -16,24 +24,30 @@ function PageAbout({ type, peopleCount, createdAt, description, name }: Props) {
     day: 'numeric',
   });
   return (
-    <div className='aside-about'>
+    <div className="aside-about">
       <h1>
         {type !== 'home' && 'About '}
         {capitalize(name ? name : type)}
       </h1>
       {description && <span>{description}</span>}
       {type !== 'home' && (
-        <span>
-          {type === 'profile' ? 'Followers: ' : 'Members: '}
-          {peopleCount}
-        </span>
+        <>
+          <span>
+            {type === 'profile' ? 'Followers: ' : 'Members: '}
+            {peopleCount}
+          </span>
+          <span>
+            <time dateTime={'datetime'}>
+              Created on {createdAt && createdAtString}
+            </time>
+          </span>
+        </>
       )}
-      <span>
-        <time dateTime={'datetime'}>
-          Created on {createdAt && createdAtString}
-        </time>
-      </span>
-      {type !== 'profile' && <button className="btn full">Create Post</button>}
+      {type !== 'profile' && (
+        <button className="btn full" onClick={handleOpen}>
+          Create Post
+        </button>
+      )}
       {type === 'home' && (
         <button className="btn hollow">Create Community</button>
       )}
