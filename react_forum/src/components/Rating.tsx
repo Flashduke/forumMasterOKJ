@@ -19,10 +19,10 @@ function Rating(props: Props) {
   const axiosPrivate = useAxiosPrivate();
   const controller = new AbortController();
 
-  const previouslyLiked = rating
+  const previouslyLiked = rating['liked' + capitalize(props.type) + 's']
     ? rating['liked' + capitalize(props.type) + 's']?.includes(props.id)
     : false;
-  const previouslyDisliked = rating
+  const previouslyDisliked = rating['disliked' + capitalize(props.type) + 's']
     ? rating['disliked' + capitalize(props.type) + 's'].includes(props.id)
     : false;
 
