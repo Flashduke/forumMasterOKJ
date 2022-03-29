@@ -72,7 +72,7 @@ function PageHeader({
 
   useEffect(() => {
     getFollowingOrJoined();
-  }, []);
+  }, [id]);
 
   return (
     <header className="page-header">
