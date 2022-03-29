@@ -198,7 +198,7 @@ a {
 .navbar-nav * {
   margin-inline: 0.2rem;
 }
-.btn:not(.post):not(.interact .btn){
+.btn:not(.post):not(.interact .btn) {
   font-weight: bold;
   letter-spacing: 1px;
   min-width: 6rem;
@@ -308,13 +308,24 @@ a {
   transition: all 2s ease;
   z-index: 1001;
 }
-.modal form {
+.modal form,
+.post form {
   display: flex;
   flex-direction: column;
+}
+.modal form {
   z-index: 1002;
 }
+.post form {
+  padding: 1.6rem;
+}
 
-.modal input {
+.modal input,
+.post input:not([type='checkbox']),
+.post textarea,
+.modal textarea,
+.post select,
+.modal select {
   -webkit-appearance: none;
   color: var(--text-color);
   font-size: 1rem;
@@ -323,19 +334,42 @@ a {
   border-inline: none;
   border-radius: 0.8rem;
   padding-inline: 1rem;
-  height: 3rem;
+
   background: var(--bg-color-transparent);
   -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
   transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+}
+.modal input {
   z-index: 1003;
+}
+.modal input,
+.post input:not([type='checkbox']),
+.post select,
+.modal select {
+  height: 3rem;
 }
 
 .modal input:first-child {
   margin-top: 1.6rem;
 }
 
-.modal input:focus {
+.modal textarea,
+.post textarea {
+  resize: vertical;
+  height: 9rem;
+  max-height: 20rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
+}
+textarea {
+  padding-block: 1rem;
+}
+select {
+  cursor: pointer;
 }
 
 .modal button {
@@ -627,7 +661,6 @@ aside {
   width: 100%;
 }
 .sticky {
-  
   position: sticky;
   top: 5rem;
 }
