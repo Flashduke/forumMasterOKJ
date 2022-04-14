@@ -49,7 +49,7 @@ function PageAbout({
         </button>
       )}
       {type === 'home' && (
-        <button className="btn hollow">Create Community</button>
+        <button className="btn hollow" disabled>Create Community</button>
       )}
     </div>
   );
