@@ -690,6 +690,38 @@ aside button {
   margin-inline: 1em;
 }
 
+.d-none {
+  display: none;
+}
+.delete-container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translateX(-20%) translateY(20%);
+}
+.btn-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--danger);
+  color: var(--mint-cream);
+  outline: none;
+  border: none;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 100%;
+  box-shadow: none;
+  translate: box-shadow .2s ease-in-out;
+}
+.btn-delete:focus,
+.btn-delete:hover {
+  cursor: pointer;
+  box-shadow: 0 0 0 0.5em var(--danger-transparent);
+}
+.btn-delete:active {
+  background-color: var(--danger-transparent);
+}
+
 /* Small Screens */
 @media only screen and (max-width: 600px) {
   .navbar {
