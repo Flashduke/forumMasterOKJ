@@ -35,8 +35,9 @@ class Community
                 ' . $this->table . ' c
             LEFT JOIN
                 members m ON m.communityID = c.id
+            GROUP BY c.id
             ORDER BY
-                createdAt DESC';
+                c.createdAt DESC';
 
         //prep stmt
         $stmt = $this->conn->prepare($query);
