@@ -31,7 +31,7 @@ USE `forum`;
 
 CREATE TABLE `comments` (
   `id` int(255) NOT NULL,
-  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `createdAt` TIMESTAMP NOT NULL DEFAULT current_timestamp(),
   `content` text COLLATE utf8_hungarian_ci NOT NULL,
   `postID` int(255) NOT NULL,
   `userID` int(255) NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE `comments_view` (
 ,`postTitle` varchar(255)
 ,`communityName` varchar(255)
 ,`content` text
-,`createdAt` datetime
+,`createdAt` TIMESTAMP
 ,`thumbsUps` decimal(32,0)
 ,`thumbsDowns` decimal(32,0)
 );
@@ -73,7 +73,7 @@ CREATE TABLE `comments_view` (
 
 CREATE TABLE `communities` (
   `id` int(255) NOT NULL,
-  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `createdAt` TIMESTAMP NOT NULL DEFAULT current_timestamp(),
   `description` text COLLATE utf8_hungarian_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_hungarian_ci NOT NULL,
   `banner` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE `posts` (
   `communityID` int(255) NOT NULL,
   `content` text COLLATE utf8_hungarian_ci NOT NULL,
   `picture` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `createdAt` TIMESTAMP NOT NULL DEFAULT current_timestamp(),
   `userID` int(255) NOT NULL,
   `thumbsDowns` int(255) NOT NULL,
   `thumbsUps` int(255) NOT NULL,
@@ -173,7 +173,7 @@ CREATE TABLE `posts_view` (
 ,`communityName` varchar(255)
 ,`title` varchar(255)
 ,`content` text
-,`createdAt` datetime
+,`createdAt` TIMESTAMP
 ,`thumbsUps` decimal(32,0)
 ,`thumbsDowns` decimal(32,0)
 ,`commentCount` bigint(21)
@@ -255,7 +255,7 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8_hungarian_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_hungarian_ci NOT NULL,
   `picture` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `createdAt` date NOT NULL DEFAULT current_timestamp(),
+  `createdAt` TIMESTAMP NOT NULL DEFAULT current_timestamp(),
   `role` varchar(255) COLLATE utf8_hungarian_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_hungarian_ci NOT NULL,
   `refreshToken` text COLLATE utf8_hungarian_ci DEFAULT NULL,
